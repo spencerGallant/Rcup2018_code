@@ -14,5 +14,6 @@ void setup() {
 
 void loop() {
   calculateAngle();
-  spinToBall();
+  goToBall(100);
+  Serial.println(ballAngle);
 }
