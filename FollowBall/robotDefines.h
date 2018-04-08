@@ -36,3 +36,5 @@ int pause = 10;
 
 //******CAMERA********//
 double ballAngle;
+
+int center = 70;

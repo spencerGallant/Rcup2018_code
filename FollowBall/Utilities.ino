@@ -18,4 +18,12 @@ void MotorsInit() {
   analogWriteFrequency(30, 58593);
 }
 
+void runProgramWhenButtonHit() {
+  delay(500);
+  while (digitalRead(12) == HIGH);
+}
+
+void buttonInit() {
+  pinMode(12, INPUT_PULLUP);
+}
 

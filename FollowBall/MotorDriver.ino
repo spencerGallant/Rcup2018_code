@@ -206,7 +206,7 @@ unsigned int getM4CurrentReading()
 void spin(int mSpeed)
 {
   setM1Speed(-mSpeed);
-  setM2Speed(-mSpeed);
+  setM2Speed(mSpeed);
   setM3Speed(mSpeed);
   setM4Speed(mSpeed);
 
@@ -217,7 +217,7 @@ void driveToHeading(float angle, float speed) {
   float proportionals[] = {cos(rad - 0.785398), cos(rad - 2.14675), cos(rad - 4.13643), cos(rad - 5.49779)};
 
   setM1Speed(-speed * proportionals[0]);
-  setM2Speed(-speed* proportionals[1]);
+  setM2Speed(speed* proportionals[1]);
   setM3Speed(speed * proportionals[2]);
   setM4Speed(speed * proportionals[3]);
 }
