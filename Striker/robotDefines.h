@@ -33,3 +33,11 @@ unsigned char _M4CS = A19;
 
 int max_speed = 255;
 int pause = 10;
+
+//******CAMERA********//
+double ballAngle;
+
+//****QTR*******//
+boolean onLine = false;
+#define INTERRUPT_PIN           39
+

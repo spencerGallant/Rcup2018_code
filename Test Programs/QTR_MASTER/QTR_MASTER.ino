@@ -1,0 +1,14 @@
+#define INTERRUPT_PIN           39
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(INTERRUPT_PIN, INPUT);
+  attachInterrupt(digitalPinToInterrupt(INTERRUPT_PIN), interrupt, RISING); //Interrupts when digitalpin rises from LOW to HIGH
+}
+
+void loop() {
+}
+
+void interrupt() {
+  Serial.println("ON THE FUCKING LINE DUMBASS");
+}

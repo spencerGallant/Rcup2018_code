@@ -7,6 +7,7 @@ void setup() {
   Serial.begin(115200);
   Serial2.begin(4800);
   MotorsInit();
+  qtrInit();
   buttonInit();
   Serial.println("Dual G2 High Power Motor Shield");
   delay(1000);
@@ -17,6 +18,17 @@ void setup() {
 }
 
 void loop() {
-  calculateAngle();
-  goToBall(150);
+  if (onLine == false) {
+    calculateAngle();
+    goToBall(150);
+  }
+  else {
+    spin(0);
+    delay(1000);
+    onLine = false;
+  }
+}
+
+void interrupt() {
+  onLine = true;
 }

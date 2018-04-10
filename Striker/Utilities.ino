@@ -18,4 +18,18 @@ void MotorsInit() {
   analogWriteFrequency(30, 58593);
 }
 
+void runProgramWhenButtonHit() {
+  delay(500);
+  while (digitalRead(12) == HIGH);
+}
+
+void buttonInit() {
+  pinMode(12, INPUT_PULLUP);
+}
+
+void qtrInit() {
+  pinMode(INTERRUPT_PIN, INPUT);
+  attachInterrupt(digitalPinToInterrupt(INTERRUPT_PIN), interrupt, RISING); //Interrupts when digitalpin rises from LOW to HIGH
+
+}
 
