@@ -10,5 +10,5 @@ void loop() {
 }
 
 void interrupt() {
-  Serial.println("ON THE FUCKING LINE DUMBASS");
+  Serial.println("On the line :)");
 }
