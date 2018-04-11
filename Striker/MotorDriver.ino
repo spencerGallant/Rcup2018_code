@@ -212,20 +212,19 @@ void spin(int mSpeed)
 
 }
 
-void driveToHeading(float angle, float speed) {
-  float rad = getRad(angle);
-  float proportionals[] = {cos(rad - 0.785398), cos(rad - 2.14675), cos(rad - 4.13643), cos(rad - 5.49779)};
-
-  setM1Speed(-speed * proportionals[0]);
-  setM2Speed(speed* proportionals[1]);
-  setM3Speed(speed * proportionals[2]);
-  setM4Speed(speed * proportionals[3]);
-}
-
 
 //Converts degrees to radians
 float getRad(float input) {
   float angle = input - 270; //DEBUG: For some reason, setting 0º in trig drives the robot in the wrong direction...
   //This corrects for this, but I don't know why it needs to be here... shouldn't?
   return (angle * 10000000) / 572957795;
+}
+
+void stopMotors()
+{
+  setM1Speed(0);
+  setM2Speed(0);
+  setM3Speed(0);
+  setM4Speed(0);
+
 }

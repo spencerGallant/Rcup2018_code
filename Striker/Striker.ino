@@ -1,4 +1,12 @@
-//#define MAXONS 0//Comment this out when using POLOLU motors.
+#include <Wire.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_BNO055.h>
+#include <utility/imumaths.h>
+#include <LIDARLite.h>
+#include <algorithm>
+#include <math.h>
+
+LIDARLite myLidarLite;
 
 #include "robotDefines.h"
 
@@ -6,29 +14,41 @@
 void setup() {
   Serial.begin(115200);
   Serial2.begin(4800);
+
   MotorsInit();
   qtrInit();
   buttonInit();
-  Serial.println("Dual G2 High Power Motor Shield");
+  IMUInit();
+  RGBLEDInit();
+  LIDARinit();
   delay(1000);
-  Serial.println("Running");
-  runProgramWhenButtonHit();
-  Serial.print("Waiting for data...");
+
+  Serial.print("Set goal");
+  setGoalAndRunProgram();
+  Serial.print("Running");
+  delay(1000);
+
 
 }
 
 void loop() {
-  if (onLine == false) {
-    calculateAngle();
-    goToBall(150);
-  }
-  else {
-    spin(0);
-    delay(1000);
-    onLine = false;
+  switch (currentState) {
+    case ON_LINE: //out of bounds
+      getInBounds();
+      break;
+    case SEES_BALL: 
+      //goToBall(200);
+      stopMotors();
+      break;
+    case DOESNT_SEE_BALL:
+      if(ballAngle != 1000) currentState = SEES_BALL; //if sees ball change state
+      else stopMotors(); //doesnt see ball and stops 
+      break;
+    case HAS_BALL:
+      break;
   }
 }
 
 void interrupt() {
-  onLine = true;
+  currentState = ON_LINE;
 }

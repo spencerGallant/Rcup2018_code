@@ -50,12 +50,15 @@ void loop()
 
   for (int i = 0; i < NUM_SENSORS; i++) {
     if (onLine[i]) {
+      Serial.print(onLine[i]);
+      Serial.print('\t');
       digitalWrite(INTERRUPT_PIN, HIGH);
       digitalWrite(13, HIGH);
       digitalWrite(INTERRUPT_PIN, LOW);
       break;
     }
   }
+  Serial.println();
   digitalWrite(13, LOW);
 }
 
@@ -87,6 +90,7 @@ void calibrateQTR() {
         writeCalibrationDataToEEPROM();
         setMedianValues();
         digitalWrite(13, LOW);     // turn off Arduino's LED to indicate we are through with calibration
+        Serial.println("done calibrating");
       }
     }
   }

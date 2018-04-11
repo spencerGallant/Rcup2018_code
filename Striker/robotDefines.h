@@ -1,16 +1,18 @@
 
 
 void MotorsInit();
-  
+
 #define STOP 0
 
 /*
- * 
- * GLOBAL VARIABLES
- * 
- */
 
- /****Motor Variables****/
+   GLOBAL VARIABLES
+
+*/
+enum State {ON_LINE, HAS_BALL, DOESNT_SEE_BALL, SEES_BALL};
+State currentState = DOESNT_SEE_BALL; //initial state
+
+/****Motor Variables****/
 unsigned int _offsetM1;
 unsigned int _offsetM2;
 unsigned int _offsetM3;
@@ -38,6 +40,28 @@ int pause = 10;
 double ballAngle;
 
 //****QTR*******//
-boolean onLine = false;
 #define INTERRUPT_PIN           39
+
+
+//---------------------IMU---------------------//
+Adafruit_BNO055 bno = Adafruit_BNO055();
+float g_goal = 0; //magnetic direction of goal
+float g_facing = 0; //where you want robot to go
+float g_error; //how far off goal robot is
+float g_xPos; //current x-position of compass (0-360)
+double gAngle; //global angle
+uint8_t sys, gyro, accel, mag;
+
+
+//-------------------LED--------------------//
+//LED Defines
+#define RED_PIN   21
+#define GREEN_PIN 23
+#define BLUE_PIN  22
+
+//--------------------LIDARS-----------------//
+int numLidars = 4;
+int lidarPinArray[] = {5, 20, 17, 16}; //5 is a random pin because one lidar in the USA 2018 version doesn't have a slave select pin
+char lidarI2cAdress[] = {0x64, 0x66, 0x68, 0x62}; //0x62 must always be the last one
+
 
