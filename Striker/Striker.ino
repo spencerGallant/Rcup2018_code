@@ -32,16 +32,18 @@ void setup() {
 }
 
 void loop() {
+    currentState = SEES_BALL;
+
+  Serial.println(currentState);
   switch (currentState) {
     case ON_LINE: //out of bounds
       getInBounds();
       break;
     case SEES_BALL: 
-      //goToBall(200);
-      stopMotors();
+      goToBall(200);
       break;
     case DOESNT_SEE_BALL:
-      if(ballAngle != 1000) currentState = SEES_BALL; //if sees ball change state
+      if(ballAngle != 1000) currentState = SEES_BALL; //TEMPORARY: if sees ball change state
       else stopMotors(); //doesnt see ball and stops 
       break;
     case HAS_BALL:
