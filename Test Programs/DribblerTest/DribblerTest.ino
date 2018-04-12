@@ -9,7 +9,7 @@ void loop() {
   digitalWrite(11, HIGH);
   digitalWrite(32, LOW);
   analogWrite(8, 255);
-  Serial.println(analogRead(A14));
+  //Serial.println(analogRead(A14));
 }
 
 

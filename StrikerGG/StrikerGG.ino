@@ -14,6 +14,7 @@ LIDARLite myLidarLite;
 void setup() {
   Serial.begin(115200);
   Serial2.begin(4800);
+  Serial6.begin(9600); //xbee
 
   dribblerInit();
   MotorsInit();
@@ -33,10 +34,12 @@ void setup() {
 }
 
 void loop() {
-  driveToHeadingIMU(g_goal, 0, 120);
+  Serial6.println("Hey");
 
-   // dribblerIn();
- //   driveToHeadingIMU(g_goal, g_goal+180, 130);
+  //  driveToHeadingIMU(g_goal, 0, 120);
+
+  // dribblerIn();
+  //   driveToHeadingIMU(g_goal, g_goal+180, 130);
   //  switch (currentState) {
   //    case ON_LINE: //out of bounds
   //      getInBounds();
