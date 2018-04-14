@@ -61,7 +61,7 @@ uint8_t sys, gyro, accel, mag;
 
 //--------------------LIDARS-----------------//
 int numLidars = 4;
-int lidarPinArray[] = {5, 20, 17, 16}; //5 is a random pin because one lidar in the USA 2018 version doesn't have a slave select pin
+int lidarPinArray[] = {15, 20, 17, 16}; //SS pins: 20 = front, 17 = left, 16 = back, 15 = (nonexistent)
 char lidarI2cAdress[] = {0x64, 0x66, 0x68, 0x62}; //0x62 must always be the last one
 
 

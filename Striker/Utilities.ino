@@ -22,8 +22,10 @@ void setGoalAndRunProgram() {
   while (digitalRead(12) == HIGH) IMU_calibrate();
   IMU_GetReadings(); //gets x position
   g_goal = g_xPos; //sets goal to x pos
-  
+
 }
+
+
 
 void buttonInit() {
   pinMode(12, INPUT_PULLUP);
@@ -32,15 +34,14 @@ void buttonInit() {
 void qtrInit() {
   pinMode(INTERRUPT_PIN, INPUT);
   attachInterrupt(digitalPinToInterrupt(INTERRUPT_PIN), interrupt, RISING); //Interrupts when digitalpin rises from LOW to HIGH
-
 }
 
 void IMUInit() {
-    if(!bno.begin())
+  if (!bno.begin())
   {
     /* There was a problem detecting the BNO055 ... check your connections */
     Serial.print("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR!");
-    while(1);
+    while (1);
   }
 }
 
@@ -66,15 +67,15 @@ void initializeLidarDigPins(int numLidars, int lidarPinArray[]) {
 }
 
 /*
- * Purpose: All the LIDARs start off with the same I2C address, so we assign each LIDAR 
- * different addresses so they don't conflict.
- * Parameters: 
- *  int numLidars          number of LIDARs used 
- *  int lidarPinArray[]    pins of LIDARs used 
- *  char lidarI2cAdress[]  array of addresses to assign the LIDARs  
- * Return value:
- *  void
- */
+   Purpose: All the LIDARs start off with the same I2C address, so we assign each LIDAR
+   different addresses so they don't conflict.
+   Parameters:
+    int numLidars          number of LIDARs used
+    int lidarPinArray[]    pins of LIDARs used
+    char lidarI2cAdress[]  array of addresses to assign the LIDARs
+   Return value:
+    void
+*/
 void lidarChangeMultAddress(int numLidars, int lidarPinArray[], char lidarI2cAdress[]) {
   for (int i = 0; i < numLidars; i++) {
     if (i != 4) {
@@ -91,14 +92,14 @@ void lidarChangeMultAddress(int numLidars, int lidarPinArray[], char lidarI2cAdr
 }
 
 /*
- * Purpose: Helper function to assign individual LIDARs new addresses.
- * Parameters: 
- *  char newI2cAddress            address to be assigned 
- *  char currentLidarLiteAddress  starting address of LIDARs
- * Return value:
- *  void
- */
- 
+   Purpose: Helper function to assign individual LIDARs new addresses.
+   Parameters:
+    char newI2cAddress            address to be assigned
+    char currentLidarLiteAddress  starting address of LIDARs
+   Return value:
+    void
+*/
+
 void lidarChangeAddress(char newI2cAddress, char currentLidarLiteAddress) {
   if (newI2cAddress != currentLidarLiteAddress) {
     unsigned char serialNumber[2];
@@ -140,5 +141,13 @@ int xyToAngle(int x, int y) {
   } else {
     return 225;
   }
+}
+
+
+
+void dribblerInit() {
+  pinMode(11, OUTPUT);
+  pinMode(32, OUTPUT);
+  pinMode(8, OUTPUT);
 }
 

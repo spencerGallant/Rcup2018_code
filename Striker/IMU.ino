@@ -88,12 +88,13 @@ void driveToHeadingIMU(float facing, float angle, float speed) {
   IMU_GetReadings();
   float facingError = IMU_calcError(facing);
   float rad = getRad(angle);
-  float proportionals[] = {cos(rad - 0.785398), cos(rad - 2.14675), cos(rad - 4.13645), cos(rad - 5.49779)};
+  float proportionals[] = {sin(-rad + 3.92699082), sin(-rad + 5.28834763), sin(-rad + 0.994837674), sin(-rad +2.35619449)};
 
-  setM1Speed(speed * proportionals[0] + (facingError));
-  setM2Speed(-speed * proportionals[1] + (facingError));
-  setM3Speed(-speed * proportionals[2] + (facingError));
-  setM4Speed(-speed * proportionals[3] + (facingError));
+  setM1Speed(-(speed * proportionals[0] + (facingError)));
+  setM2Speed(speed * proportionals[1] + (facingError));
+  setM3Speed(speed * proportionals[2] + (facingError));
+  setM4Speed(speed * proportionals[3] + (facingError));
 }
+
 
 

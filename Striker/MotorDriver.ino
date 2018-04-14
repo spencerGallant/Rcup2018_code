@@ -214,10 +214,8 @@ void spin(int mSpeed)
 
 
 //Converts degrees to radians
-float getRad(float input) {
-  float angle = input - 270; //DEBUG: For some reason, setting 0º in trig drives the robot in the wrong direction...
-  //This corrects for this, but I don't know why it needs to be here... shouldn't?
-  return (angle * 10000000) / 572957795;
+float getRad(float angle) {
+  return angle * 0.01745329251;
 }
 
 void stopMotors()
@@ -228,3 +226,16 @@ void stopMotors()
   setM4Speed(0);
 
 }
+
+void dribblerIn(){
+  digitalWrite(11, HIGH);
+  digitalWrite(32, LOW);
+  analogWrite(8, 255);
+}
+void dribblerOut(){
+  digitalWrite(11, LOW);
+  digitalWrite(32, HIGH);
+  analogWrite(8, 255);
+}
+
+

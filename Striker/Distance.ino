@@ -4,20 +4,20 @@
    Returns: distance reading of the correct sensor
 */
 
-double rightDistance() {
-  return myLidarLite.distance(true, 0x62);
+double frontDistance() {
+  return myLidarLite.distance(true, 0x64);
 }
 
 double leftDistance() {
-  return myLidarLite.distance(true, 0x64);
+  return myLidarLite.distance(true, 0x66);
 }
 
 double backDistance() {
   return myLidarLite.distance(true, 0x68);
 }
 
-double frontDistance() {
-  return myLidarLite.distance(true, 0x66);
+double rightDistance() {
+  return myLidarLite.distance(true, 0x62);
 }
 
 /*
