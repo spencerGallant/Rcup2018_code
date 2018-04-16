@@ -25,27 +25,28 @@ void setup() {
   LIDARinit();
   delay(1000);
   setGoalAndRunProgram();
+    delay(1000);
 }
 
 void loop() {
-  Serial.println(currentState);
-  switch (currentState) {
-    case ON_LINE: //out of bounds
-      setRGB(255, 0, 0);
-      getInBounds();
-      break;
-    case SEES_BALL:
-      setRGB(0, 255, 0);
-      goToBall(230);
-      break;
-    case DOESNT_SEE_BALL:
-      setRGB(0, 0, 255);
-      if (ballAngle != 1000) currentState = SEES_BALL; //TEMPORARY: if sees ball change state
-      else currentState = SEES_BALL; //doesnt see ball and stops
-      break;
-    case HAS_BALL:
-      break;
-  }
+  updateDistances();
+    switch (currentState) {
+      case ON_LINE: //out of bounds
+        setRGB(255, 0, 0);
+        getInBounds();
+        break;
+      case SEES_BALL:
+        setRGB(0, 255, 0);
+        goToBall(230);
+        break;
+      case DOESNT_SEE_BALL:
+        setRGB(0, 0, 255);
+        doesnt_see_ball();
+        break;
+      case HAS_BALL:
+        break;
+    }
+
 }
 
 void interrupt() {

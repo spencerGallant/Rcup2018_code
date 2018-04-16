@@ -1,4 +1,17 @@
 /*
+ * Purpose: Updates the global distance variables
+ * Parameters: None
+ * Returns: Void
+ */
+void updateDistances() {
+  rightDist = rightDistance();
+  leftDist = leftDistance();
+  backDist = backDistance();
+  frontDist = frontDistance();
+}
+
+
+/*
    Purpose for rightDistance, leftDistance, backDistance, frontDistance, IRDistance: reads distances for respective sensors
    Parameters: None
    Returns: distance reading of the correct sensor
