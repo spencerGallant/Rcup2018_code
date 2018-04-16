@@ -1,3 +1,13 @@
+void qtrInit() {
+  pinMode(INTERRUPT_PIN, INPUT);
+  attachInterrupt(digitalPinToInterrupt(INTERRUPT_PIN), interrupt, RISING); //Interrupts when digitalpin rises from LOW to HIGH
+}
+void dribblerInit() {
+  pinMode(11, OUTPUT);
+  pinMode(32, OUTPUT);
+  pinMode(8, OUTPUT);
+}
+
 void MotorsInit() {
   // Define pinMode for the pins and set the frequency for timers 1 and 2.
   pinMode(_M1PWM, OUTPUT);
@@ -18,22 +28,8 @@ void MotorsInit() {
   analogWriteFrequency(30, 58593);
 }
 
-void setGoalAndRunProgram() {
-  while (digitalRead(12) == HIGH) IMU_calibrate();
-  IMU_GetReadings(); //gets x position
-  g_goal = g_xPos; //sets goal to x pos
-
-}
-
-
-
 void buttonInit() {
   pinMode(12, INPUT_PULLUP);
-}
-
-void qtrInit() {
-  pinMode(INTERRUPT_PIN, INPUT);
-  attachInterrupt(digitalPinToInterrupt(INTERRUPT_PIN), interrupt, RISING); //Interrupts when digitalpin rises from LOW to HIGH
 }
 
 void IMUInit() {
@@ -44,7 +40,6 @@ void IMUInit() {
     while (1);
   }
 }
-
 
 void RGBLEDInit() {
   pinMode(RED_PIN, OUTPUT);
@@ -115,6 +110,30 @@ void lidarChangeAddress(char newI2cAddress, char currentLidarLiteAddress) {
   }
 }
 
+void checkLIDARConnection(){
+//  updateDistances();
+//  if(rightDistance != "nack" && leftDistance != "nack" && frontDistance != "nack" && backDistance != "nack"){
+//    Serial.println("LIDARS connected successfully");
+//  }
+//  else{
+//    Serial.println("trouble connecting to LIDARs");
+//  }
+}
+void TOFinit(){
+  Serial.println("Adafruit VL6180x test!");
+  if (! vl.begin()) {
+    Serial.println("Failed to find sensor");
+    while (1);
+  }
+  Serial.println("Sensor found!");
+}
+
+void setGoalAndRunProgram() {
+  while (digitalRead(12) == HIGH) IMU_calibrate();
+  IMU_GetReadings(); //gets x position
+  g_goal = g_xPos; //sets goal to x pos
+
+}
 
 /*
    converts the x and y vector components to a usable angle
@@ -141,11 +160,4 @@ int xyToAngle(int x, int y) {
   }
 }
 
-
-
-void dribblerInit() {
-  pinMode(11, OUTPUT);
-  pinMode(32, OUTPUT);
-  pinMode(8, OUTPUT);
-}
 

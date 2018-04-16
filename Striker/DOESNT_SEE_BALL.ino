@@ -1,12 +1,14 @@
 void doesnt_see_ball() {
-  if (vl.readRange() < 60) {
+  if (vl.readRange() < 60) { //check if has ball now
     Serial.println(vl.readRange());
     currentState = HAS_BALL;
     return;
   }
   calculateAngle();
-  if (ballAngle != 1000) currentState = SEES_BALL;
-
+  if (ballAngle != 1000) { //check if sees ball now
+    currentState = SEES_BALL;
+    return;
+  }
   if (millis() - lastTimeSawBall >= 300 && millis() - lastTimeSawBall <= 1000) {
     stopMotors();
   }

@@ -227,12 +227,12 @@ void stopMotors()
 
 }
 
-void dribblerIn(){
+void dribblerOut(){
   digitalWrite(11, HIGH);
   digitalWrite(32, LOW);
   analogWrite(8, 255);
 }
-void dribblerOut(){
+void dribblerIn(){
   digitalWrite(11, LOW);
   digitalWrite(32, HIGH);
   analogWrite(8, 255);

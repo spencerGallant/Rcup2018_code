@@ -1,12 +1,14 @@
 
 void goToBall(int speed) {
   int k = 3;
-  if(vl.readRange() < 50){
+  if(vl.readRange() < 60){ //check if has ball now
     currentState = HAS_BALL;
+    return;
   }
   calculateAngle();
-  if (ballAngle == 1000) {
+  if (ballAngle == 1000) { //check if doesn't see ball now
     currentState = DOESNT_SEE_BALL;
+    return;
   }
   else if ((ballAngle > 90) || (ballAngle < -90)) spinToBall();
   else {
