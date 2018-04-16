@@ -22,16 +22,24 @@ void calculateAngle() {
     else if (xPos > 0 && yPos < 0) ballAngle = ballAngle + 360;
     else if (xPos < 0 && yPos > 0) ballAngle = ballAngle + 180;
 
+    //comment two lines out if orientation is flipped 180 degrees
+    ballAngle = ballAngle + 180;
+    if(ballAngle > 360) ballAngle = ballAngle - 360;
+    
     ballAngle = ballAngle - 180;
 
-    if (m == .75) ballAngle = 1000; //ballAngle = 1000 when robot doesn't see ball
-
+    if (m == .75) {
+      ballAngle = 1000; //ballAngle = 1000 when robot doesn't see ball
+      setRGB(0, 0, 255);
+    }
+    else setRGB(0, 255, 0);
 
   }
 }
 
 void spinToBall() {
-  int k = 2;
+  calculateAngle();
+  float k = 2;
 
   if (ballAngle != 1000) spin(ballAngle * k);
   else stopMotors();

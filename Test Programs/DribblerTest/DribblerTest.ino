@@ -6,9 +6,9 @@ void setup() {
   }
 
 void loop() {
-  digitalWrite(11, HIGH);
-  digitalWrite(32, LOW);
-  analogWrite(8, 255);
+  digitalWrite(11, LOW);
+  digitalWrite(32, HIGH);
+  analogWrite(8, 100);
   //Serial.println(analogRead(A14));
 }
 

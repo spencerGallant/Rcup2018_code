@@ -81,7 +81,7 @@ boolean rightClear() {
   for (int i = 0; i < sampleSize; i++) {
     distances[i] = rightDistance();
   }
-  return clearDistanceLIDAR(47, distances);
+  return clearDistanceLIDAR(50, distances);
 }
 
 boolean leftClear() {
@@ -90,7 +90,7 @@ boolean leftClear() {
   for (int i = 0; i < sampleSize; i++) {
     distances[i] = leftDistance();
   }
-  return clearDistanceLIDAR(47, distances);
+  return clearDistanceLIDAR(50, distances);
 }
 
 boolean backClear() {
@@ -99,7 +99,7 @@ boolean backClear() {
   for (int i = 0; i < sampleSize; i++) {
     distances[i] = backDistance();
   }
-  return clearDistanceLIDAR(50, distances);
+  return clearDistanceLIDAR(60, distances);
 }
 
 boolean frontClear() {
@@ -108,5 +108,5 @@ boolean frontClear() {
   for (int i = 0; i < sampleSize; i++) {
     distances[i] = frontDistance();
   }
-  return clearDistanceLIDAR(50, distances);
+  return clearDistanceLIDAR(60, distances);
 }

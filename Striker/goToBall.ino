@@ -1,8 +1,7 @@
 
 void goToBall(int speed) {
-  int k = 2;
+  int k = 3;
   calculateAngle();
-
   if (ballAngle == 1000) {
     stopMotors();
     currentState = DOESNT_SEE_BALL;
@@ -10,11 +9,10 @@ void goToBall(int speed) {
   else if ((ballAngle > 90) || (ballAngle < -90)) spinToBall();
   else {
     float rad = getRad(0);
-    float proportionals[] = {cos(rad - 0.785398), cos(rad - 2.14675), cos(rad - 4.13643), cos(rad - 5.49779)};
-
-    setM1Speed((speed * proportionals[0]) - (ballAngle * k));
-    setM2Speed((-speed * proportionals[1]) + (ballAngle * k));
-    setM3Speed((-speed * proportionals[2]) + (ballAngle * k));
-    setM4Speed((-speed * proportionals[3]) + (ballAngle * k));
+  float proportionals[] = {sin(-rad + 3.92699082), sin(-rad + 5.28834763), sin(-rad + 0.994837674), sin(-rad +2.35619449)};
+  setM1Speed(-(speed * proportionals[0] + (ballAngle*k)));
+  setM2Speed(speed * proportionals[1] + (ballAngle*k));
+  setM3Speed(speed * proportionals[2] + (ballAngle*k));
+  setM4Speed(speed * proportionals[3] + (ballAngle*k));
   }
 }
