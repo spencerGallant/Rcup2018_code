@@ -27,25 +27,25 @@ void setup() {
 
 void loop() {
   updateDistances();
-//  switch (currentState) {
-//    case ON_LINE:
-//      setRGB(255, 0, 0);
-//      getInBounds();
-//      break;
-//    case HAS_BALL:
-//      setRGB(0, 255, 0);
-      has_ball();
-//      break;
-//    case SEES_BALL:
-//      setRGB(0, 0, 255);
-//      currentState = DOESNT_SEE_BALL;
-//      //goToBall(230);
-//      break;
-//    case DOESNT_SEE_BALL:
-//      setRGB(255, 0, 255);
-//      doesnt_see_ball();
-//      break;
-//  }
+  Serial.println(currentState);
+  switch (currentState) {
+    case ON_LINE:
+      setRGB(255, 0, 0);
+      currentState = DOESNT_SEE_BALL;
+      //getInBounds();
+      break;
+    case HAS_BALL:
+      setRGB(0, 255, 0);
+      break;
+    case SEES_BALL:
+      setRGB(0, 0, 255);
+      goToBall(230);
+      break;
+    case DOESNT_SEE_BALL:
+      setRGB(255, 0, 255);
+      doesnt_see_ball();
+      break;
+  }
 }
 
 void interrupt() {

@@ -7,7 +7,6 @@ void doesnt_see_ball() {
   calculateAngle();
   if (ballAngle != 1000) { //check if sees ball now
     currentState = SEES_BALL;
-    return;
   }
   if (millis() - lastTimeSawBall >= 300 && millis() - lastTimeSawBall <= 1000) {
     stopMotors();
