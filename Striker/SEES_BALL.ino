@@ -1,6 +1,9 @@
 
 void goToBall(int speed) {
   int k = 3;
+  if(vl.readRange() < 50){
+    currentState = HAS_BALL;
+  }
   calculateAngle();
   if (ballAngle == 1000) {
     currentState = DOESNT_SEE_BALL;

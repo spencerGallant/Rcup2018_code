@@ -68,4 +68,8 @@ int rightDist;
 int leftDist;
 int frontDist;
 int backDist;
+LIDARLite myLidarLite;
+
+//--------------TIME OF FLIGHT-------------//
+Adafruit_VL6180X vl = Adafruit_VL6180X();
 

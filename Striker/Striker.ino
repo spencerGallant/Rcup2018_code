@@ -5,9 +5,7 @@
 #include <LIDARLite.h>
 #include <algorithm>
 #include <math.h>
-
-LIDARLite myLidarLite;
-
+#include "Adafruit_VL6180X.h"
 #include "robotDefines.h"
 
 
@@ -23,29 +21,28 @@ void setup() {
   IMUInit();
   RGBLEDInit();
   LIDARinit();
+  TOFinit();
   delay(1000);
   setGoalAndRunProgram();
-    delay(1000);
+  delay(1000);
 }
 
 void loop() {
   updateDistances();
-    switch (currentState) {
-      case ON_LINE: //out of bounds
-        setRGB(255, 0, 0);
-        getInBounds();
-        break;
-      case SEES_BALL:
-        setRGB(0, 255, 0);
-        goToBall(230);
-        break;
-      case DOESNT_SEE_BALL:
-        setRGB(0, 0, 255);
-        doesnt_see_ball();
-        break;
-      case HAS_BALL:
-        break;
-    }
+  switch (currentState) {
+    case ON_LINE:
+      getInBounds();
+      break;
+    case HAS_BALL:
+      has_ball();
+      break;
+    case SEES_BALL:
+      goToBall(230);
+      break;
+    case DOESNT_SEE_BALL:
+      doesnt_see_ball();
+      break;
+  }
 
 }
 

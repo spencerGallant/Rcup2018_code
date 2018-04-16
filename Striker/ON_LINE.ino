@@ -24,7 +24,7 @@ void getInBounds() {
     }
     if (isClear) break;
   }
-  currentState = SEES_BALL;
+  currentState = DOESNT_SEE_BALL;
 }
 
 
