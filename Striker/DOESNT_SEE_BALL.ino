@@ -1,5 +1,5 @@
 void doesnt_see_ball() {
-  if (vl.readRange() < 60) { //check if has ball now
+  if (vl.readRange() < 50) { //check if has ball now
     Serial.println(vl.readRange());
     currentState = HAS_BALL;
     return;
@@ -30,7 +30,6 @@ void doesnt_see_ball() {
     } else {
       driveToHeadingIMU(g_goal, xyToAngle(x, y), 200);
     }
-
   }
 }
 

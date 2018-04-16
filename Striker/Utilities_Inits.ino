@@ -110,15 +110,6 @@ void lidarChangeAddress(char newI2cAddress, char currentLidarLiteAddress) {
   }
 }
 
-void checkLIDARConnection(){
-//  updateDistances();
-//  if(rightDistance != "nack" && leftDistance != "nack" && frontDistance != "nack" && backDistance != "nack"){
-//    Serial.println("LIDARS connected successfully");
-//  }
-//  else{
-//    Serial.println("trouble connecting to LIDARs");
-//  }
-}
 void TOFinit(){
   Serial.println("Adafruit VL6180x test!");
   if (! vl.begin()) {
@@ -160,4 +151,14 @@ int xyToAngle(int x, int y) {
   }
 }
 
+void setRGB(int red, int green, int blue)
+{
+  red = 255 - red;
+  blue = 255 - blue;
+  green = 255 - green;
+
+  analogWrite(RED_PIN, red);
+  analogWrite(GREEN_PIN, blue);
+  analogWrite(BLUE_PIN, green);
+}
 

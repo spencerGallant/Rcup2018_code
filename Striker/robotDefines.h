@@ -73,3 +73,6 @@ LIDARLite myLidarLite;
 //--------------TIME OF FLIGHT-------------//
 Adafruit_VL6180X vl = Adafruit_VL6180X();
 
+//-------------SCORING STRATEGY------------//
+boolean spunToShoot = false;
+

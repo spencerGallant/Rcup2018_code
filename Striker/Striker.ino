@@ -23,7 +23,6 @@ void setup() {
   TOFinit();
   delay(1000);
   setGoalAndRunProgram();
-  delay(1000);
 }
 
 void loop() {

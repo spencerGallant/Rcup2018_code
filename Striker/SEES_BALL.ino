@@ -1,7 +1,7 @@
 
 void goToBall(int speed) {
   int k = 3;
-  if(vl.readRange() < 60){ //check if has ball now
+  if(vl.readRange() < 50){ //check if has ball now
     currentState = HAS_BALL;
     return;
   }
