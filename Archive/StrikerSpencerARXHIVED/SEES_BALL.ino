@@ -5,11 +5,7 @@ void goToBall(int speed) {
   lastTimeSawBall = millis();
   calculateAngle();
   if (ballAngle == 1000) {
-    stopMotors();
     currentState = DOESNT_SEE_BALL;
-  }
-  else if (ballAngle == 2000) {
-    stopMotors();
   }
   else if ((ballAngle > 90) || (ballAngle < -90)) {
     spinToBall();

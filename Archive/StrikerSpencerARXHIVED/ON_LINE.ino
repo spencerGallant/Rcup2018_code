@@ -5,7 +5,6 @@ void getInBounds() {
   pointDirection = (abs(g_goal - g_xPos) < abs(g_goal + 180 - g_xPos)) ? g_goal : (g_goal + 180);
   IMU_spinToDirection(pointDirection);
   for (int i = 0; i < 10000; i++) {
-    updateDistances();
     int x = 0;
     int y = 0;
     boolean isClear = true;
