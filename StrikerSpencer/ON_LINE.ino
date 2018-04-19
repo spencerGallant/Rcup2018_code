@@ -9,11 +9,11 @@ void getInBounds() {
     int x = 0;
     int y = 0;
     boolean isClear = true;
-    boolean r = rightClear();
+    boolean r = rightClear(); 
     boolean l = leftClear();
     boolean f = frontClear();
     boolean b = backClear();
-    if (!r) x--, isClear = false;
+    if (!r) x--, isClear = false; 
     if (!l) x++, isClear = false;
     if (!f) y--, isClear = false;
     if (!b) y++, isClear = false;
@@ -23,9 +23,17 @@ void getInBounds() {
       int ang = xyToAngle(x, y);
       driveToHeadingIMU(pointDirection, ang, 120);
     }
-    if (isClear) break;
+    if (isClear) { //IN BOUNDS
+      stopMotors();
+      clearCameraBuffer();
+      
+      lastTimeSawBall = millis();  
+      spinningToBall = false;
+      ballAngle = 1000; //before this ballAngle = whatever it was before it hit the line. So, sets it to 1000 assuming it does not see ball so it does not move at random angle
+      break;
+    }
   }
-  currentState = SEES_BALL;
+  currentState = DOESNT_SEE_BALL; //sets state to doesn't see ball
 }
 
 

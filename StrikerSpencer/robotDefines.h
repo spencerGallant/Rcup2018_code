@@ -40,6 +40,8 @@ int pause = 10;
 double ballAngle;
 int lastTimeSawBall = 0;
 boolean spinningToBall = false;
+double xPos;
+double yPos;
 
 //****QTR*******//
 #define INTERRUPT_PIN           39
