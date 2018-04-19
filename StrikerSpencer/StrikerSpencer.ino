@@ -29,11 +29,11 @@ void setup() {
   delay(1000);
   setGoalAndRunProgram();
   delay(1000);
-  Serial6.print("here");
+  currentState = DOESNT_SEE_BALL; //initialize at this state because interrupt can be triggered while calibrating
 }
 
 void loop() {
-  Serial6.println(currentState);
+ // Serial6.println(currentState);
   switch (currentState) {
     case ON_LINE: //out of bounds
       setRGB(255, 0, 0);

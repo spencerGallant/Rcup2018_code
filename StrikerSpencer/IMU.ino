@@ -85,7 +85,6 @@ void IMU_spinToDirection(float targetDirection) {
 */
 
 void driveToHeadingIMU(float facing, float angle, float speed) {
-  Serial6.print(angle);
   IMU_GetReadings();
   float facingError = IMU_calcError(facing);
   float rad = getRad(angle);
