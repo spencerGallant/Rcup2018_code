@@ -26,7 +26,6 @@ void getInBounds() {
     if (isClear) { //IN BOUNDS
       stopMotors();
       clearCameraBuffer();
-      
       lastTimeSawBall = millis();  
       spinningToBall = false;
       ballAngle = 1000; //before this ballAngle = whatever it was before it hit the line. So, sets it to 1000 assuming it does not see ball so it does not move at random angle

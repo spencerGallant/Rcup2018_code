@@ -3,127 +3,86 @@
   using pins 3, 4, 29, 30
 */
 
-
 // Set speed for motor 1, speed is a number between -1023 and 1023
 // Set speed for motor 1, speed is a number between -1023 and 1023
 void setM1Speed(int speed)
 {
-  if (speed < 0) // if reverse is
-  {
-    digitalWrite(_M1DIR, HIGH);
-    speed = -speed;
+  speed = -speed;
+  if (checkMotorSwitchOn() == true) {
+    if (speed < 0) // if reverse is
+    {
+      digitalWrite(_M1DIR, HIGH);
+      speed = -speed;
+    }
+    else
+    {
+      digitalWrite(_M1DIR, LOW);
+    }
+    analogWrite(_M1PWM, speed);
   }
-  else
-  {
-    digitalWrite(_M1DIR, LOW);
+  else {
+    analogWrite(_M1PWM, 0);
   }
-  analogWrite(_M1PWM, speed);
 }
 
 void setM2Speed(int speed)
 {
-  if (speed < 0) // if reverse is
-  {
-    digitalWrite(_M2DIR, HIGH);
-    speed = -speed;
+  speed = -speed;
+  if (checkMotorSwitchOn() == true) {
+    if (speed < 0) // if reverse is
+    {
+      digitalWrite(_M2DIR, HIGH);
+      speed = -speed;
+    }
+    else
+    {
+      digitalWrite(_M2DIR, LOW);
+    }
+    analogWrite(_M2PWM, speed);
   }
-  else
-  {
-    digitalWrite(_M2DIR, LOW);
+  else {
+    analogWrite(_M2PWM, 0);
   }
-  analogWrite(_M2PWM, speed);
 }
 
 void setM3Speed(int speed)
 {
-  if (speed < 0) // if reverse is
-  {
-    digitalWrite(_M3DIR, HIGH);
-    speed = -speed;
+  speed = -speed;
+  if (checkMotorSwitchOn() == true) {
+    if (speed < 0) // if reverse is
+    {
+      digitalWrite(_M3DIR, HIGH);
+      speed = -speed;
+    }
+    else
+    {
+      digitalWrite(_M3DIR, LOW);
+    }
+    analogWrite(_M3PWM, speed);
   }
-  else
-  {
-    digitalWrite(_M3DIR, LOW);
+  else {
+    analogWrite(_M3PWM, 0);
   }
-  analogWrite(_M3PWM, speed);
 }
 void setM4Speed(int speed)
 {
-  if (speed < 0) // if reverse is
-  {
-    digitalWrite(_M4DIR, HIGH);
-    speed = -speed;
+  speed = -speed;
+  if (checkMotorSwitchOn() == true) {
+    if (speed < 0) // if reverse is
+    {
+      digitalWrite(_M4DIR, HIGH);
+      speed = -speed;
+    }
+    else
+    {
+      digitalWrite(_M4DIR, LOW);
+    }
+    analogWrite(_M4PWM, speed);
+  } else {
+    analogWrite(_M4PWM, 0);
   }
-  else
-  {
-    digitalWrite(_M4DIR, LOW);
-  }
-  analogWrite(_M4PWM, speed);
 }
-/*void setM3Speed(int speed)
-  {
-  boolean reverse = false;
-  if (speed < 0)
-  {
-    speed = -speed;  // Make speed a positive quantity
-    reverse = true;  // Preserve the direction
-  }
 
-  #if MAXONS
-  analogWrite(_M1PWM, speed);  // takes a speed from 0-1023
-  #else
-  // map speed of 0-1023 (used for Maxon) to 0-255
-  analogWrite(_M1PWM, speed / 4); //takes a speed from 0-255 (so need to remap)
-  if (speed > 255)  // Max PWM dutycycle
-    speed = 255;
-  #endif
-
-  if (reverse) // if reverse is TRUE
-  {
-    digitalWrite(_M1DIR, HIGH);
-  }
-  else
-  {
-    digitalWrite(_M1DIR, LOW);
-  }
-  }
-  void setM4Speed(int speed)
-  {
-  boolean reverse = false;
-  if (speed < 0)
-  {
-    speed = -speed;  // Make speed a positive quantity
-    reverse = true;  // Preserve the direction
-  }
-
-  #if MAXONS
-  analogWrite(_M1PWM, speed);  // takes a speed from 0-1023
-  #else
-  // map speed of 0-1023 (used for Maxon) to 0-255
-  analogWrite(_M1PWM, speed / 4); //takes a speed from 0-255 (so need to remap)
-  if (speed > 255)  // Max PWM dutycycle
-    speed = 255;
-  #endif
-
-  if (reverse) // if reverse is TRUE
-  {
-    digitalWrite(_M1DIR, HIGH);
-  }
-  else
-  {
-    digitalWrite(_M1DIR, LOW);
-  }
-  }
-
-
-  // Set speed for all four motors
-  void setSpeeds(int m1Speed, int m2Speed, int m3Speed, int m4Speed)
-  {
-  setM1Speed(m1Speed);
-  setM2Speed(m2Speed);
-  setM3Speed(m3Speed);
-  setM4Speed(m4Speed);
-  }*/
 void setSpeeds(int m1Speed, int m2Speed)
 {
   setM1Speed(m1Speed);
@@ -206,11 +165,12 @@ unsigned int getM4CurrentReading()
 void spin(int mSpeed)
 {
   setM1Speed(-mSpeed);
-  setM2Speed(mSpeed);
-  setM3Speed(mSpeed);
-  setM4Speed(mSpeed);
+  setM2Speed(-mSpeed);
+  setM3Speed(-mSpeed);
+  setM4Speed(-mSpeed);
 
 }
+
 
 
 //Converts degrees to radians
@@ -227,15 +187,42 @@ void stopMotors()
 
 }
 
-void dribblerIn(){
+void dribblerIn() {
   digitalWrite(11, LOW);
   digitalWrite(32, HIGH);
   analogWrite(8, 255);
 }
-void dribblerOut(){
+void dribblerOut() {
   digitalWrite(11, HIGH);
   digitalWrite(32, LOW);
   analogWrite(8, 255);
 }
 
+void dribblerOff() {
+  digitalWrite(11, LOW);
+  digitalWrite(32, LOW);
+  analogWrite(8, 0);
+}
 
+void setDribbler(int speed) {
+  if (speed > 0) {
+    digitalWrite(11, LOW);
+    digitalWrite(32, HIGH);
+    analogWrite(8, speed);
+  }
+  else {
+    digitalWrite(11, HIGH);
+    digitalWrite(32, LOW);
+    analogWrite(8, abs(speed));
+  }
+}
+
+void driveToHeading(float angle, float speed) {
+  float rad = getRad(angle);
+  float proportionals[] = {sin(-rad + 3.92699082), sin(-rad + 5.28834763), sin(-rad + 0.994837674), sin(-rad + 2.35619449)};
+
+  setM1Speed(-speed * proportionals[0]);
+  setM2Speed(-speed * proportionals[1]);
+  setM3Speed(-speed * proportionals[2]);
+  setM4Speed(-speed * proportionals[3]);
+}

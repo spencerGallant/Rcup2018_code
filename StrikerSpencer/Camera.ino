@@ -2,18 +2,18 @@ void calculateAngle() {
   // Only run this if you are in fact recieving x and y data. Otherwise, ballAngle does not change
   if (Serial2.available() > 0) {
     getCameraReadings();     // read the incoming camera x and y pos
-    if (xPos > 640 || yPos > 480) { //filter out and bad readings. 2000 is sign of bad readings
+    Serial.print(xPos);
+    Serial.print("  ");
+    Serial.print(yPos);
+    if (xPos > 1280 || yPos > 960) { //filter out and bad readings. 2000 is sign of bad readings
       ballAngle = 2000;
       setRGB(255, 0, 255); //white
     } else {
-      xPos = xPos - 320; //makes the center of the screen (640*480) 0 instead of having it be top left corner
-      yPos = yPos - 240;
+      xPos = xPos - 640; //makes the center of the screen (640*480) 0 instead of having it be top left corner
+      yPos = yPos - 480;
 
       xPos = xPos * -1;
       yPos = yPos * -1;
-//      Serial6.print(xPos);
-//      Serial6.print(",  ");
-//      Serial6.println(yPos);
       double m = (float)(yPos) / (float)(xPos);
       ballAngle = atan((double)m);
       ballAngle = ballAngle * 57296 / 1000;
@@ -31,6 +31,8 @@ void calculateAngle() {
         ballAngle = 1000; //ballAngle = 1000 when robot doesn't see ball
       }
     }
+    Serial.print(" ");
+    Serial.println(ballAngle);
   }
 }
 

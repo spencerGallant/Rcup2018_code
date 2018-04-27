@@ -1,8 +1,12 @@
+int IRDistance() {
+  return distIR.distance();
+}
+
 /*
- * Purpose: Updates the global distance variables
- * Parameters: None
- * Returns: Void
- */
+   Purpose: Updates the global distance variables
+   Parameters: None
+   Returns: Void
+*/
 void updateDistances() {
   rightDist = rightDistance();
   leftDist = leftDistance();
@@ -17,19 +21,19 @@ void updateDistances() {
    Returns: distance reading of the correct sensor
 */
 
-double frontDistance() {
-  return myLidarLite.distance(true, 0x64);
-}
-
-double leftDistance() {
-  return myLidarLite.distance(true, 0x66);
-}
-
-double backDistance() {
+double leftDistance() { //LEFT
   return myLidarLite.distance(true, 0x68);
 }
 
-double rightDistance() {
+double backDistance() {
+  return myLidarLite.distance(true, 0x66);
+}
+
+double rightDistance() { //RIGHT
+  return myLidarLite.distance(true, 0x64);
+}
+
+double frontDistance() { //FRONT
   return myLidarLite.distance(true, 0x62);
 }
 

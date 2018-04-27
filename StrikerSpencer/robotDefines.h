@@ -72,3 +72,13 @@ int leftDist;
 int frontDist;
 int backDist;
 
+//--------------------OTHER-----------------//
+boolean facingGoal = false;
+char hemisphere;
+int backwardSpeedWithBall  = 120;
+int forwardSpeedWithBall =  220;
+int sideSpeedWithBall = 150;
+
+//---------------------Distance IR---------------------//
+SharpIR distIR(A15, 1080);
+

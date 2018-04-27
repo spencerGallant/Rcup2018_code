@@ -85,16 +85,26 @@ void IMU_spinToDirection(float targetDirection) {
 */
 
 void driveToHeadingIMU(float facing, float angle, float speed) {
+  int k = 1.5;
   IMU_GetReadings();
   float facingError = IMU_calcError(facing);
   float rad = getRad(angle);
   float proportionals[] = {sin(-rad + 3.92699082), sin(-rad + 5.28834763), sin(-rad + 0.994837674), sin(-rad + 2.35619449)};
 
-  setM1Speed(-(speed * proportionals[0] + (facingError)));
-  setM2Speed(speed * proportionals[1] + (facingError));
-  setM3Speed(speed * proportionals[2] + (facingError));
-  setM4Speed(speed * proportionals[3] + (facingError));
+  setM1Speed(speed * proportionals[0] + (facingError)*k);
+  setM2Speed(speed * proportionals[1] + (facingError)*k);
+  setM3Speed(speed * proportionals[2] + (facingError)*k);
+  setM4Speed(speed * proportionals[3] + (facingError)*k);
 }
 
-
+void spinSlowCheckPossesion(float targetDirection) {
+    int k = 2;
+    while (abs(IMU_calcError(targetDirection)) > 10 && checkPossession() == true) {
+      if (IMU_calcError(targetDirection)*k > 70) spin(70); //sets a max and min speed it can turn at
+      else if (IMU_calcError(targetDirection)*k < -70) spin(-70);
+      else spin(IMU_calcError(targetDirection)*k);
+    }
+    stopMotors();
+    //clearCameraBuffer(); COMMENT THIS BACK IN
+  }
 
