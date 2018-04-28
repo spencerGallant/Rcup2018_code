@@ -1,5 +1,6 @@
 void scoreGoal() {
   updateDistances();
+  printDistances();
   boolean forwards = abs(IMU_calcError(g_goal)) < 90;
   if (checkPossession() == false) {
     setRGB(100, 100, 0);
@@ -92,7 +93,7 @@ boolean checkPossession() {
 }
 
 void straightForwardsShoot() {
-  if (frontDist > 40) {
+  if (frontDist > 90) {
     Serial6.println(" DRIVING STRAIGHT");
     setDribbler(-20);
     checkWhichHemisphere();
@@ -119,7 +120,7 @@ void straightForwardsShoot() {
 }
 
 void straightBackwardsShoot() {
-  if (backDist > 40) {
+  if (backDist > 90) {
     Serial6.println(" DRIVING STRAIGHT");
     dribblerIn();
     checkWhichHemisphere();
@@ -129,7 +130,6 @@ void straightBackwardsShoot() {
     dribblerIn();
     if (hemisphere == 'r') { //actually closer to left side
       Serial6.println(" SPINNING IN LEFT HEMISPHERE");
-
       spinSlowCheckPossesion(g_goal - 90);
       spinSlowCheckPossesion(g_goal + 45);
     }
@@ -141,7 +141,14 @@ void straightBackwardsShoot() {
     }
     else {
       Serial6.println(" SPINNING IN CENTER HEMISPHERE");
-      spinSlowCheckPossesion(g_goal);
+      if (rightDist > leftDist) {
+        spinSlowCheckPossesion(g_goal + 90);
+        spinSlowCheckPossesion(g_goal);
+      }
+      else {
+        spinSlowCheckPossesion(g_goal - 90);
+        spinSlowCheckPossesion(g_goal);
+      }
     }
     Serial6.println(" SHOOOTTT");
     kick();

@@ -15,14 +15,14 @@ void updateDistances() {
 }
 
 void printDistances(){
-  Serial.print("Right: ");
-  Serial.print(rightDist);
-  Serial.print(" Left: "); 
-  Serial.print(leftDist); 
-  Serial.print(" Front: ");
-  Serial.print(frontDist);
-  Serial.print(" Back: ");
-  Serial.println(backDist);
+  Serial6.print("Right: ");
+  Serial6.print(rightDist);
+  Serial6.print(" Left: "); 
+  Serial6.print(leftDist); 
+  Serial6.print(" Front: ");
+  Serial6.print(frontDist);
+  Serial6.print(" Back: ");
+  Serial6.println(backDist);
 }
 
 

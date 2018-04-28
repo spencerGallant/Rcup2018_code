@@ -50,7 +50,7 @@ void loop() {
       scoreGoal();
       setRGB(255, 0, 255);
       break;
-  }
+ }
 }
 
 void interrupt() {
