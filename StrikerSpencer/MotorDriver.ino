@@ -226,3 +226,11 @@ void driveToHeading(float angle, float speed) {
   setM3Speed(-speed * proportionals[2]);
   setM4Speed(-speed * proportionals[3]);
 }
+
+void kick() {
+  digitalWrite(31, HIGH);
+  delay(120);
+  digitalWrite(31, LOW);
+  delay(500);
+}
+

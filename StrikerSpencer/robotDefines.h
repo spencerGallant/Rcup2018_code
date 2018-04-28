@@ -75,7 +75,7 @@ int backDist;
 //--------------------OTHER-----------------//
 boolean facingGoal = false;
 char hemisphere;
-int backwardSpeedWithBall  = 120;
+int backwardSpeedWithBall  = 110;
 int forwardSpeedWithBall =  220;
 int sideSpeedWithBall = 150;
 

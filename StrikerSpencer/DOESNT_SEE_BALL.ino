@@ -1,6 +1,6 @@
 void doesnt_see_ball() {
   calculateAngle();
-  if (ballAngle != 1000) {
+  if (ballAngle != 10000) { 
     currentState = SEES_BALL; //if sees ball at any point, switches state
   }
   else if (millis() - lastTimeSawBall <= 400 && spinningToBall == false) { //if the ball is in the front half of the robot when it loses it, immediately stops. If the ball is in the back half of the robot (meaning it is spinning in place) keeps spinning for 250ms to see if it sees it

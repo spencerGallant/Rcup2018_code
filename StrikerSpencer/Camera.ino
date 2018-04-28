@@ -28,7 +28,7 @@ void calculateAngle() {
       ballAngle = ballAngle - 180;
 
       if (m == .75) { //needs to be at end so overrides any other calculations
-        ballAngle = 1000; //ballAngle = 1000 when robot doesn't see ball
+        ballAngle = 10000; //ballAngle = 10000 when robot doesn't see ball
       }
     }
     Serial.print(" ");

@@ -14,6 +14,17 @@ void updateDistances() {
   frontDist = frontDistance();
 }
 
+void printDistances(){
+  Serial.print("Right: ");
+  Serial.print(rightDist);
+  Serial.print(" Left: "); 
+  Serial.print(leftDist); 
+  Serial.print(" Front: ");
+  Serial.print(frontDist);
+  Serial.print(" Back: ");
+  Serial.println(backDist);
+}
+
 
 /*
    Purpose for rightDistance, leftDistance, backDistance, frontDistance, IRDistance: reads distances for respective sensors
@@ -21,19 +32,19 @@ void updateDistances() {
    Returns: distance reading of the correct sensor
 */
 
-double leftDistance() { //LEFT
+double frontDistance() { //FRONT
   return myLidarLite.distance(true, 0x68);
 }
 
-double backDistance() {
+double rightDistance() { //RIGHT
   return myLidarLite.distance(true, 0x66);
 }
 
-double rightDistance() { //RIGHT
+double backDistance() { //BACK
   return myLidarLite.distance(true, 0x64);
 }
 
-double frontDistance() { //FRONT
+double leftDistance() { //LEFT
   return myLidarLite.distance(true, 0x62);
 }
 

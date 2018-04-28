@@ -33,24 +33,24 @@ void setup() {
 }
 
 void loop() {
+  checkToSetGoal();
   switch (currentState) {
     case ON_LINE: //out of bounds
       setRGB(255, 0, 0);
       getInBounds();
       break;
-    //      case SEES_BALL:
-    //        goToBall(130);
-    //        break;
-    case DOESNT_SEE_BALL:
-      setRGB(0, 0, 255);
-      stopMotors();
-      //        doesnt_see_ball();
+    case SEES_BALL:
+      goToBall(130);
       break;
-      //      case HAS_BALL:
-      //        scoreGoal();
-      //        setRGB(255, 0, 255);
-      //        break;
-  } 
+    case DOESNT_SEE_BALL:
+      setRGB(255, 0, 255);
+      doesnt_see_ball();
+      break;
+    case HAS_BALL:
+      scoreGoal();
+      setRGB(255, 0, 255);
+      break;
+  }
 }
 
 void interrupt() {

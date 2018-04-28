@@ -1,10 +1,10 @@
 
 void goToBall(int speed) {
-  //dribblerIn();
+  dribblerOff();
   int k = 2; //130--> 2; 200--> 3
   lastTimeSawBall = millis();
   calculateAngle();
-  if (ballAngle == 1000) { //doesn't see ball. switch state
+  if (ballAngle == 10000) { //doesn't see ball. switch state
     stopMotors();
     setRGB(0, 0, 255);
     currentState = DOESNT_SEE_BALL;
@@ -26,9 +26,9 @@ void goToBall(int speed) {
     float rad = getRad(0);
     float proportionals[] = {sin(-rad + 3.92699082), sin(-rad + 5.28834763), sin(-rad + 0.994837674), sin(-rad + 2.35619449)};
 
-    setM1Speed(-(speed * proportionals[0] - (ballAngle * k)));
-    setM2Speed(-(speed * proportionals[1] - (ballAngle * k)));
-    setM3Speed(-(speed * proportionals[2] - (ballAngle * k)));
-    setM4Speed(-(speed * proportionals[3] - (ballAngle * k)));
+    setM1Speed((speed * proportionals[0] - (ballAngle * k)));
+    setM2Speed((speed * proportionals[1] - (ballAngle * k)));
+    setM3Speed((speed * proportionals[2] - (ballAngle * k)));
+    setM4Speed((speed * proportionals[3] - (ballAngle * k)));
   }
 }

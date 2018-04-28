@@ -11,6 +11,8 @@ void MotorsInit() {
   pinMode(_M3DIR, OUTPUT);
   pinMode(_M4CS, INPUT);
   pinMode(_M4DIR, OUTPUT);
+  pinMode(31, OUTPUT); //dribbler init
+
 
   analogWriteFrequency(3, 58593);
   analogWriteFrequency(4, 58593);
@@ -26,6 +28,12 @@ void setGoalAndRunProgram() {
 }
 
 
+void checkToSetGoal() {
+  if (digitalRead(12) == LOW) {
+    IMU_GetReadings(); //gets x position
+    g_goal = g_xPos; //sets goal to x pos
+  }
+}
 
 void buttonInit() {
   pinMode(26, INPUT_PULLUP);
@@ -157,11 +165,11 @@ void TOFInit() {
   }
 }
 
-boolean checkMotorSwitchOn(){
-  if(digitalRead(26) == HIGH){
+boolean checkMotorSwitchOn() {
+  if (digitalRead(26) == HIGH) {
     return true;
   }
-  else{
+  else {
     return false;
   }
 }
