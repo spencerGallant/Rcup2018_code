@@ -1,4 +1,4 @@
-boolean goalie = true;
+boolean goalie = false;
 enum State {ON_LINE, HAS_BALL, DOESNT_SEE_BALL, SEES_BALL, OUT_OF_GOAL};
 State currentState = DOESNT_SEE_BALL; //initial state
 

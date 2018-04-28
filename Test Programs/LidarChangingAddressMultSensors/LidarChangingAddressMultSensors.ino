@@ -19,13 +19,13 @@ void setup()
 void loop()
 {
 
-  Serial.print("BACK: ");
+  Serial.print("FRONT: ");
   Serial.print(myLidarLite.distance(true, 0x64));
-  Serial.print(" RIGHT: ");
-  Serial.print(myLidarLite.distance(true, 0x66));
-  Serial.print(" FRONT: ");
-  Serial.print(myLidarLite.distance(true, 0x68));
   Serial.print(" LEFT: ");
+  Serial.print(myLidarLite.distance(true, 0x66));
+  Serial.print(" BACK: ");
+  Serial.print(myLidarLite.distance(true, 0x68));
+  Serial.print(" RIGHT: ");
   Serial.println(myLidarLite.distance(true, 0x62));
 }
 

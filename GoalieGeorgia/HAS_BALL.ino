@@ -10,10 +10,7 @@ void scoreGoal() {
     clearCameraBuffer();
   }
   else if (forwards == true) {
-    Serial6.print("FORWARD: ");
-    setRGB(0, 255, 0);
     if (facingGoal == false) {
-      Serial6.print(" SPINNING");
       dribblerIn();
       spinSlowCheckPossesion(g_goal);
       facingGoal = true;
@@ -24,49 +21,37 @@ void scoreGoal() {
     }
     else { //not clear view in front or back
       if (frontDist < 40) { //blocked in front
-        Serial6.println(" BLOCKED IN FRONT");
         dribblerIn();
         spinSlowCheckPossesion(g_goal + 180);
       }
       else { //not sure where you are just go forward
-        Serial6.println(" NOT SURE WHERE YOU ARE");
         setDribbler(-20);
         driveToHeadingIMU(g_goal, 0, forwardSpeedWithBall);
       }
     }
   } //end of if facing forwards
   else { //facing backwards
-    Serial6.print("BACKWARD: ");
     if (facingGoal == false) {
-      Serial6.println(" SPINNING");
-      setRGB(0, 255, 0);
       dribblerIn();
       spinSlowCheckPossesion(g_goal + 180);
       facingGoal = true;
       updateDistances();
     }
     if (frontDist + backDist > 200 && backDist >= 40) { //clear in front and back direction
-      setRGB(0, 255, 0);
       straightBackwardsShoot();
     }
     else { //not clear in front or back direction
-      setRGB(0, 255, 255);
       if (backDist < 40) {
-        Serial6.println(" BLOCKED IN BACK");
         dribblerIn();
-        setRGB(255, 0, 0);
         moveToOpenSide();
       }
       else { //not blocked in direction you are going, but blocked somewhere
         if (IRDistance() < 15) {
-          Serial6.println(" BEING TRAILED");
           dribblerIn();
           spinSlowCheckPossesion(g_goal);
         }
         else { //not blocked in back so probably read the goalie in "not clear" reading
-          Serial6.println(" NOT SURE WHERE YOU ARE");
           dribblerIn();
-          setRGB(255, 0, 0);
           moveToOpenSide();
         }
       }

@@ -32,19 +32,19 @@ void printDistances(){
    Returns: distance reading of the correct sensor
 */
 
-double frontDistance() { //FRONT
+double backDistance() { //FRONT
   return myLidarLite.distance(true, 0x68);
 }
 
-double rightDistance() { //RIGHT
+double leftDistance() { //RIGHT
   return myLidarLite.distance(true, 0x66);
 }
 
-double backDistance() { //BACK
+double frontDistance() { //BACK
   return myLidarLite.distance(true, 0x64);
 }
 
-double leftDistance() { //LEFT
+double rightDistance() { //LEFT
   return myLidarLite.distance(true, 0x62);
 }
 

@@ -33,21 +33,22 @@ void setup() {
 }
 
 void loop() {
+  updateDistances();
+  printDistances();
+ /* Serial6.println(currentState);
   checkToSetGoal();
   if (goalie == true) {
-    Serial6.println(currentState);
     updateDistances();
     switch (currentState) {
       case ON_LINE: //out of bounds
-        setRGB(255, 0, 0);
         getInBounds();
         break;
       case SEES_BALL:
         blockBall();
         break;
       case DOESNT_SEE_BALL:
-          goalieFindBall();
-          break;
+        goalieFindBall();
+        break;
       case HAS_BALL:
         break;
       case OUT_OF_GOAL:
@@ -73,7 +74,7 @@ void loop() {
         setRGB(255, 0, 255);
         break;
     }
-  }
+  } */
 }
 
 void interrupt() {
