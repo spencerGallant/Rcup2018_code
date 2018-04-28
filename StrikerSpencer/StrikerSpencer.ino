@@ -25,6 +25,7 @@ void setup() {
   IMUInit();
   RGBLEDInit();
   LIDARinit();
+  kickerInit();
   TOFInit();
   delay(1000);
   setGoalAndRunProgram();

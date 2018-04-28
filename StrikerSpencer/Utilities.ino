@@ -11,8 +11,6 @@ void MotorsInit() {
   pinMode(_M3DIR, OUTPUT);
   pinMode(_M4CS, INPUT);
   pinMode(_M4DIR, OUTPUT);
-  pinMode(31, OUTPUT); //dribbler init
-
 
   analogWriteFrequency(3, 58593);
   analogWriteFrequency(4, 58593);
@@ -27,6 +25,9 @@ void setGoalAndRunProgram() {
 
 }
 
+void kickerInit() {
+  pinMode(31, OUTPUT); //kciker init
+}
 
 void checkToSetGoal() {
   if (digitalRead(12) == LOW) {
