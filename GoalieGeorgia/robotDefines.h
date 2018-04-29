@@ -68,7 +68,8 @@ char hemisphere;
 int backwardSpeedWithBall  = 110;
 int forwardSpeedWithBall =  220;
 int sideSpeedWithBall = 150;
-
+boolean randomGenerated = true;
+boolean shootingRight = true;
 //---------------------Distance IR---------------------//
 SharpIR distIR(A15, 1080);
 

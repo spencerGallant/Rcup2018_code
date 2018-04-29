@@ -80,17 +80,17 @@ void moveToOpenSide() {
 
 boolean checkPossession() {
   uint8_t range = vl.readRange();
-  if (range < 40) {
+  if (range < 50) {
     return true;
   }
   else return false;
 }
 
 void straightForwardsShoot() {
+  checkWhichHemisphere();
   if (frontDist > 90) {
     Serial6.println("shooting: moving forward");
     setDribbler(-20);
-    checkWhichHemisphere();
     driveToHeadingIMU(g_goal, 0, forwardSpeedWithBall);
   }
   else {
@@ -113,10 +113,11 @@ void straightForwardsShoot() {
 }
 
 void straightBackwardsShoot() {
+  checkWhichHemisphere();
+
   if (backDist > 90) {
     Serial6.println("shooting: moving backwards");
     dribblerIn();
-    checkWhichHemisphere();
     driveToHeadingIMU(g_goal + 180, 180, backwardSpeedWithBall);
   }
   else {
@@ -159,11 +160,67 @@ void checkWhichHemisphere() {
       hemisphere = 'l';
     }
   }
-  //  else{
-  //    hemisphere = 'n';
-  //  }
+}
+
+void getToLeftCornerBackwards() {
+  updateDistances();//MAKE SURE YOU DONT DO THIS TWICE
+  printDistances();
+  dribblerIn();
+  if (abs(IMU_calcError(g_goal + 180)) > 20) {
+    spinSlowCheckPossesion(g_goal + 180);
+    updateDistances();
+  }
+  if (backDist < 80 && rightDist < 55 && frontDist + backDist > 220) {
+    leftBackwardsShoot();
+  }
+  else if (backDist >= 80) {
+    int diff = rightDist - 55;
+    diff = diff * 2;
+    if (diff > 90) diff = 90;
+    if (diff < -90) diff = -90;
+    driveToHeadingIMU(g_goal + 180, 180 - diff, 100);
+  }
+  else if (backDist < 100 && rightDist >= 55) {
+    driveToHeadingIMU(g_goal + 180, 90, 100);
+  }
 }
 
 
+
+void getToRightCornerBackwards() {
+  updateDistances();//MAKE SURE YOU DONT DO THIS TWICE
+  printDistances();
+  dribblerIn();
+  if (abs(IMU_calcError(g_goal + 180)) > 20) {
+    spinSlowCheckPossesion(g_goal + 180);
+    updateDistances();
+  }
+  if (backDist < 80 && leftDist < 55 && frontDist + backDist > 220) {
+    rightBackwardsShoot();
+  }
+  else if (backDist >= 80) {
+    int diff = leftDist - 55;
+    diff = diff * 2;
+    if (diff > 90) diff = 90;
+    if (diff < -90) diff = -90;
+    driveToHeadingIMU(g_goal + 180, 180 + diff, 100);
+  }
+  else if (backDist < 100 && leftDist >= 55) {
+    driveToHeadingIMU(g_goal + 180, 270, 100);
+  }
+}
+void rightBackwardsShoot() {
+  spinSlowCheckPossesion(g_goal + 90);
+  spinSlowCheckPossesion(g_goal - 45);
+  kick();
+}
+
+void leftBackwardsShoot() {
+  Serial6.print("SPINNING 90");
+  spinSlowCheckPossesion(g_goal - 90);
+  Serial6.print("SPINNING 45");
+  //spinSlowCheckPossesion(g_goal + 45);
+  kick();
+}
 
 

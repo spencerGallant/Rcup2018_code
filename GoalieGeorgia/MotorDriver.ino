@@ -193,7 +193,10 @@ void dribblerIn() {
     digitalWrite(32, HIGH);
     analogWrite(8, 255);
   }
-  else dribblerOff();
+  else {
+    Serial6.println("Dribbler OFF");
+    dribblerOff();
+  }
 }
 void dribblerOut() {
   if (checkMotorSwitchOn() == true) {
@@ -241,6 +244,6 @@ void kick() {
   delay(120);
   digitalWrite(31, LOW);
   delay(500);
-  Serial6.println("SHOOT");
+  randomGenerated = false;
 }
 

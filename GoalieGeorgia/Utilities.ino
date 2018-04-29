@@ -168,7 +168,10 @@ void TOFInit() {
 
 boolean checkMotorSwitchOn() {
   if (digitalRead(26) == HIGH) return true;
-  else return false;
+  else {
+    dribblerOff();
+    return false;
+  }
 }
 
 void checkGoalieSwitchOn(){

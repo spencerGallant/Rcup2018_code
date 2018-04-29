@@ -32,7 +32,9 @@ void setup() {
   currentState = DOESNT_SEE_BALL; //initialize at this state because interrupt can be triggered while calibrating
 }
 
-void loop() {
+void loop() { 
+    spinSlowCheckPossesion(g_goal - 90);
+/*
   checkGoalieSwitchOn();
   checkToSetGoal();
   if (goalie == true) {
@@ -55,21 +57,39 @@ void loop() {
     }
   }
   else {
-    switch (currentState) {
-      case ON_LINE: //out of bounds
-        getInBounds();
-        break;
-      case SEES_BALL:
-        goToBall(180);
-        break;
-      case DOESNT_SEE_BALL:
-        doesnt_see_ball();
-        break;
-      case HAS_BALL:
-        scoreGoal();
-        break;
+    if (checkPossession() == true) {
+      if (randomGenerated == true) {
+        if (shootingRight == true) {
+          getToRightCornerBackwards();
+        }
+        else {
+          getToLeftCornerBackwards();
+        }
+      }
+      else {
+        shootingRight = random(0, 2);
+        randomGenerated = true;
+      }
+    }
+    else {
+      stopMotors();
     }
   }
+  /* switch (currentState) {
+     case ON_LINE: //out of bounds
+       getInBounds();
+       break;
+     case SEES_BALL:
+       goToBall(180);
+       break;
+     case DOESNT_SEE_BALL:
+       doesnt_see_ball();
+       break;
+     case HAS_BALL:
+       scoreGoal();
+       break;
+    }
+    } */
 }
 
 void interrupt() {
