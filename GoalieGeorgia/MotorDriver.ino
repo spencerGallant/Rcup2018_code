@@ -194,7 +194,6 @@ void dribblerIn() {
     analogWrite(8, 255);
   }
   else {
-    Serial6.println("Dribbler OFF");
     dribblerOff();
   }
 }

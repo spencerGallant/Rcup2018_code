@@ -31,10 +31,15 @@ void setup() {
   delay(1000);
   currentState = DOESNT_SEE_BALL; //initialize at this state because interrupt can be triggered while calibrating
   checkGoalieSwitchOn();
-
+  setRGB(255, 255, 255);
 }
 
 void loop() {
+  Serial.print(goalie);
+  Serial.print(" ");
+  Serial.print(currentState);
+  Serial.print(" ");
+  Serial.println(checkPossession());
   checkToSetGoal();
   if (goalie == true) {
     setRGB(255, 0, 0);
@@ -54,7 +59,6 @@ void loop() {
         goalieFindBall();
         break;
       case HAS_BALL:
-        setRGB(255, 0, 255);
         goalieToStriker();
         break;
       case OUT_OF_GOAL:
