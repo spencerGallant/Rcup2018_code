@@ -188,14 +188,20 @@ void stopMotors()
 }
 
 void dribblerIn() {
-  digitalWrite(11, LOW);
-  digitalWrite(32, HIGH);
-  analogWrite(8, 255);
+  if (checkMotorSwitchOn() == true) {
+    digitalWrite(11, LOW);
+    digitalWrite(32, HIGH);
+    analogWrite(8, 255);
+  }
+  else dribblerOff();
 }
 void dribblerOut() {
-  digitalWrite(11, HIGH);
-  digitalWrite(32, LOW);
-  analogWrite(8, 255);
+  if (checkMotorSwitchOn() == true) {
+    digitalWrite(11, HIGH);
+    digitalWrite(32, LOW);
+    analogWrite(8, 255);
+  }
+  else dribblerOff();
 }
 
 void dribblerOff() {
@@ -205,16 +211,19 @@ void dribblerOff() {
 }
 
 void setDribbler(int speed) {
-  if (speed > 0) {
-    digitalWrite(11, LOW);
-    digitalWrite(32, HIGH);
-    analogWrite(8, speed);
+  if (checkMotorSwitchOn() == true) {
+    if (speed > 0) {
+      digitalWrite(11, LOW);
+      digitalWrite(32, HIGH);
+      analogWrite(8, speed);
+    }
+    else {
+      digitalWrite(11, HIGH);
+      digitalWrite(32, LOW);
+      analogWrite(8, abs(speed));
+    }
   }
-  else {
-    digitalWrite(11, HIGH);
-    digitalWrite(32, LOW);
-    analogWrite(8, abs(speed));
-  }
+  else dribblerOff();
 }
 
 void driveToHeading(float angle, float speed) {
@@ -232,5 +241,6 @@ void kick() {
   delay(120);
   digitalWrite(31, LOW);
   delay(500);
+  Serial6.println("SHOOT");
 }
 

@@ -61,12 +61,11 @@ void calculateAngleGoalie() {
     } else {
       yPos = yPos - 480; //makes the center of the screen (640*480) 0 instead of having it be top left corner
     }
-    Serial6.println(yPos);
   }
 }
 void spinToBall() {
   calculateAngle();
-  float k = .8;
+  float k = 1;
   spin(ballAngle * k);
 }
 

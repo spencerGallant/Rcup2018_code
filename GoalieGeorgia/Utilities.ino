@@ -37,6 +37,7 @@ void checkToSetGoal() {
 
 void buttonInit() {
   pinMode(26, INPUT_PULLUP);
+  pinMode(27, INPUT_PULLUP);
   pinMode(12, INPUT_PULLUP);
 }
 
@@ -166,10 +167,12 @@ void TOFInit() {
 }
 
 boolean checkMotorSwitchOn() {
-  if (digitalRead(26) == HIGH) {
-    return true;
-  }
-  else {
-    return false;
-  }
+  if (digitalRead(26) == HIGH) return true;
+  else return false;
 }
+
+void checkGoalieSwitchOn(){
+  if(digitalRead(27) == HIGH) goalie = true;
+  else goalie = false; 
+}
+
