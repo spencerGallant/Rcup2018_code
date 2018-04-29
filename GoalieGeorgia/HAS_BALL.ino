@@ -80,7 +80,7 @@ void moveToOpenSide() {
 
 boolean checkPossession() {
   uint8_t range = vl.readRange();
-  if (range < 50) {
+  if (range < 75) {
     return true;
   }
   else return false;
@@ -114,7 +114,6 @@ void straightForwardsShoot() {
 
 void straightBackwardsShoot() {
   checkWhichHemisphere();
-
   if (backDist > 90) {
     Serial6.println("shooting: moving backwards");
     dribblerIn();

@@ -32,64 +32,72 @@ void setup() {
   currentState = DOESNT_SEE_BALL; //initialize at this state because interrupt can be triggered while calibrating
 }
 
-void loop() { 
-    spinSlowCheckPossesion(g_goal - 90);
-/*
+void loop() {
   checkGoalieSwitchOn();
   checkToSetGoal();
-  if (goalie == true) {
-    updateDistances();
-    switch (currentState) {
-      case ON_LINE: //out of bounds
-        getInBounds();
-        break;
-      case SEES_BALL:
-        blockBall();
-        break;
-      case DOESNT_SEE_BALL:
-        goalieFindBall();
-        break;
-      case HAS_BALL:
-        break;
-      case OUT_OF_GOAL:
-        getToGoal();
-        break;
-    }
-  }
-  else {
-    if (checkPossession() == true) {
-      if (randomGenerated == true) {
-        if (shootingRight == true) {
-          getToRightCornerBackwards();
-        }
-        else {
-          getToLeftCornerBackwards();
-        }
-      }
-      else {
-        shootingRight = random(0, 2);
-        randomGenerated = true;
+  dribblerIn();
+  Serial6.print(g_goal);
+  Serial6.print(" ");
+  Serial6.print(g_xPos);
+  spinSlowCheckPossesion(g_goal - 90);
+  delay(1000);
+  spinSlowCheckPossesion(g_goal + 45);
+  delay(3000);
+  /*
+
+    if (goalie == true) {
+      updateDistances();
+      switch (currentState) {
+        case ON_LINE: //out of bounds
+          getInBounds();
+          break;
+        case SEES_BALL:
+          blockBall();
+          break;
+        case DOESNT_SEE_BALL:
+          goalieFindBall();
+          break;
+        case HAS_BALL:
+          break;
+        case OUT_OF_GOAL:
+          getToGoal();
+          break;
       }
     }
     else {
-      stopMotors();
+      if (checkPossession() == true) {
+        if (randomGenerated == true) {
+          if (shootingRight == true) {
+            getToRightCornerBackwards();
+          }
+          else {
+            getToLeftCornerBackwards();
+          }
+        }
+        else {
+          shootingRight = random(0, 2);
+          randomGenerated = true;
+        }
+      }
+      else {
+        stopMotors();
+      }
     }
-  }
-  /* switch (currentState) {
-     case ON_LINE: //out of bounds
-       getInBounds();
-       break;
-     case SEES_BALL:
-       goToBall(180);
-       break;
-     case DOESNT_SEE_BALL:
-       doesnt_see_ball();
-       break;
-     case HAS_BALL:
-       scoreGoal();
-       break;
-    }
-    } */
+    /* switch (currentState) {
+       case ON_LINE: //out of bounds
+         getInBounds();
+         break;
+       case SEES_BALL:
+         goToBall(180);
+         break;
+       case DOESNT_SEE_BALL:
+         doesnt_see_ball();
+         break;
+       case HAS_BALL:
+         scoreGoal();
+         break;
+      }
+      } */
 }
 
 void interrupt() {
