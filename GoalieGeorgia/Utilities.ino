@@ -174,8 +174,5 @@ boolean checkMotorSwitchOn() {
   }
 }
 
-void checkGoalieSwitchOn(){
-  if(digitalRead(27) == HIGH) goalie = true;
-  else goalie = false; 
-}
+
 

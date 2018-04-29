@@ -3,7 +3,6 @@ void scoreGoal() {
   printDistances();
   boolean forwards = abs(IMU_calcError(g_goal)) < 90;
   if (checkPossession() == false) {
-    setRGB(100, 100, 0);
     facingGoal = false;
     currentState = DOESNT_SEE_BALL;
     dribblerOff();

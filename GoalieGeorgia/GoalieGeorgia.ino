@@ -30,74 +30,75 @@ void setup() {
   setGoalAndRunProgram();
   delay(1000);
   currentState = DOESNT_SEE_BALL; //initialize at this state because interrupt can be triggered while calibrating
+  checkGoalieSwitchOn();
+
 }
 
 void loop() {
-  checkGoalieSwitchOn();
   checkToSetGoal();
-  dribblerIn();
-  Serial6.print(g_goal);
-  Serial6.print(" ");
-  Serial6.print(g_xPos);
-  spinSlowCheckPossesion(g_goal - 90);
-  delay(1000);
-  spinSlowCheckPossesion(g_goal + 45);
-  delay(3000);
-  /*
-
-    if (goalie == true) {
-      updateDistances();
-      switch (currentState) {
-        case ON_LINE: //out of bounds
-          getInBounds();
-          break;
-        case SEES_BALL:
-          blockBall();
-          break;
-        case DOESNT_SEE_BALL:
-          goalieFindBall();
-          break;
-        case HAS_BALL:
-          break;
-        case OUT_OF_GOAL:
-          getToGoal();
-          break;
+  if (goalie == true) {
+    setRGB(255, 0, 0);
+    updateDistances();
+    switch (currentState) {
+      case ON_LINE: //out of bounds
+        getInBounds();
+        break;
+      case SEES_BALL:
+        if (checkPossession() == true) {
+          currentState = HAS_BALL;
+          stopMotors();
+        }
+        //blockBall();
+        break;
+      case DOESNT_SEE_BALL:
+        goalieFindBall();
+        break;
+      case HAS_BALL:
+        setRGB(255, 0, 255);
+        goalieToStriker();
+        break;
+      case OUT_OF_GOAL:
+        getToGoal();
+        break;
+    }
+  }
+  else { //striker mode
+    setRGB(0, 0, 255);
+    strikerToGoalie();
+    switch (currentState) {
+      case ON_LINE: //out of bounds
+        getInBounds();
+        break;
+      case SEES_BALL:
+        goToBall(180);
+        break;
+      case DOESNT_SEE_BALL:
+        doesnt_see_ball();
+        break;
+      case HAS_BALL:
+        scoreGoal();
+        break;
+    }
+  }
+  /*if (checkPossession() == true) {
+    if (randomGenerated == true) {
+      if (shootingRight == true) {
+        getToRightCornerBackwards();
+      }
+      else {
+        getToLeftCornerBackwards();
       }
     }
     else {
-      if (checkPossession() == true) {
-        if (randomGenerated == true) {
-          if (shootingRight == true) {
-            getToRightCornerBackwards();
-          }
-          else {
-            getToLeftCornerBackwards();
-          }
-        }
-        else {
-          shootingRight = random(0, 2);
-          randomGenerated = true;
-        }
-      }
-      else {
-        stopMotors();
-      }
+      shootingRight = random(0, 2);
+      randomGenerated = true;
     }
-    /* switch (currentState) {
-       case ON_LINE: //out of bounds
-         getInBounds();
-         break;
-       case SEES_BALL:
-         goToBall(180);
-         break;
-       case DOESNT_SEE_BALL:
-         doesnt_see_ball();
-         break;
-       case HAS_BALL:
-         scoreGoal();
-         break;
-      }
-      } */
+    }
+    else {
+    stopMotors();
+    }
+    }
+  */
 }
 
 void interrupt() {

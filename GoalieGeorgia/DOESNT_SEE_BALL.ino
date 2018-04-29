@@ -42,6 +42,10 @@ void doesnt_see_ball() {
 
 void goalieFindBall() {
   calculateAngleGoalie();
+  if (checkPossession() == true) {
+    currentState = HAS_BALL;
+    stopMotors();
+  }
   if (inGoal() && yPos < 2000) currentState = SEES_BALL;
   else if (inGoal() == false) currentState = OUT_OF_GOAL;
   else stopMotors();
