@@ -58,16 +58,6 @@ boolean IMU_atGoal() {
   return false;
 }
 
-/*
-   Chekcs if the momentary switch is hit to reset goal direction
-*/
-void IMU_checkIfResetGoal() {
-  if (digitalRead(12) == LOW) {
-    IMU_GetReadings();
-    g_goal = g_xPos;
-    delay(500);
-  }
-}
 
 void IMU_spinToDirection(float targetDirection) {
   int k = 2;

@@ -1,13 +1,25 @@
-void scoreGoal() {
+void pickScoringMethodAndScore() {
+  if (randomGenerated == true) {
+    if (strategyChoice == 0) {
+      getToRightCornerBackwards();
+    }
+    else if (strategyChoice == 1) {
+      getToLeftCornerBackwards();
+    }
+    else if (strategyChoice == 2) { //regular scoring
+      regularScoring();
+    }
+  }
+  else {
+    strategyChoice = random(0, 3);
+    randomGenerated = true;
+  }
+}
+
+void regularScoring() {
   updateDistances();
   boolean forwards = abs(IMU_calcError(g_goal)) < 90;
-  if (checkPossession() == false) {
-    facingGoal = false;
-    currentState = DOESNT_SEE_BALL;
-    dribblerOff();
-    clearCameraBuffer();
-  }
-  else if (forwards == true) {
+  if (forwards == true) {
     if (facingGoal == false) {
       dribblerIn();
       spinSlowCheckPossesion(g_goal);
@@ -19,7 +31,6 @@ void scoreGoal() {
     }
     else { //not clear view in front or back
       if (frontDist < 40 || IRDistance() < 15) { //blocked in front
-        Serial6.println("blocked in front");
         dribblerIn();
         spinSlowCheckPossesion(g_goal + 180);
       }
@@ -45,7 +56,7 @@ void scoreGoal() {
         moveToOpenSide();
       }
       else { //not blocked in direction you are going, but blocked somewhere
-        if (IRDistance() < 15) {
+        if (IRDistance() < 15) { //being trailed
           dribblerIn();
           spinSlowCheckPossesion(g_goal);
         }
@@ -94,7 +105,7 @@ void straightForwardsShoot() {
     else {
       stopMotors();
     }
-    kick();
+    checkPossessionKick();
   }
 }
 
@@ -124,7 +135,7 @@ void straightBackwardsShoot() {
         spinSlowCheckPossesion(g_goal);
       }
     }
-    kick();
+    checkPossessionKick();
   }
 }
 
@@ -150,7 +161,15 @@ void getToLeftCornerBackwards() {
     spinSlowCheckPossesion(g_goal + 180);
     updateDistances();
   }
-  if (backDist < 80 && rightDist < 55) {
+  if (IRDistance() < 15) { //someone trailing you from behind
+    spinSlowCheckPossesion(g_goal);
+    strategyChoice = 2;
+  }
+  else if (backDist < 60) {
+    dribblerOut(80);
+    driveToHeadingIMU(g_goal + 180, 0, 100);
+  }
+  else if (backDist < 80 && rightDist < 55) {
     leftBackwardsShoot();
   }
   else if (backDist >= 80) {
@@ -161,20 +180,28 @@ void getToLeftCornerBackwards() {
     driveToHeadingIMU(g_goal + 180, 180 - diff, 100);
   }
   else if (backDist < 100 && rightDist >= 55) {
-    driveToHeadingIMU(g_goal + 180.0, 90, 100);
+    driveToHeadingIMU(g_goal + 180, 90, 100);
   }
 }
 
 
 
 void getToRightCornerBackwards() {
-  updateDistances();//MAKE SURE YOU DONT DO THIS TWICE
+  updateDistances();
   dribblerIn();
   if (abs(IMU_calcError(g_goal + 180)) > 20) {
     spinSlowCheckPossesion(g_goal + 180);
     updateDistances();
   }
-  if (backDist < 80 && leftDist < 55) {
+  if (IRDistance() < 15) { //someone trailing you from behind
+    spinSlowCheckPossesion(g_goal);
+    strategyChoice = 2;
+  }
+  else if (backDist < 60) {
+    dribblerOut(80);
+    driveToHeadingIMU(g_goal + 180, 0, 100);
+  }
+  else if (backDist < 80 && leftDist < 55) {
     rightBackwardsShoot();
   }
   else if (backDist >= 80) {
@@ -190,14 +217,14 @@ void getToRightCornerBackwards() {
 }
 void rightBackwardsShoot() {
   spinSlowCheckPossesion(g_goal + 90);
-  spinSlowCheckPossesion(g_goal - 55);
-  kick();
+  spinSlowCheckPossesion(g_goal - 65);
+  checkPossessionKick();
 }
 
 void leftBackwardsShoot() {
   spinSlowCheckPossesion(g_goal - 90);
-  spinSlowCheckPossesion(g_goal + 55);
-  kick();
+  spinSlowCheckPossesion(g_goal + 65);
+  checkPossessionKick();
 }
 
 

@@ -10,7 +10,6 @@ void goToBall(int speed) {
     currentState = DOESNT_SEE_BALL;
   }
   else if (ballAngle == 2000) { //not getting right readings
-    setRGB(255, 255, 255);
     stopMotors();
     clearCameraBuffer();
   }

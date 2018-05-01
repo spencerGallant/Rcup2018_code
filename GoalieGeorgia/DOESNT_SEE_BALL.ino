@@ -5,17 +5,10 @@ void doesnt_see_ball() {
   }
   else if (millis() - lastTimeSawBall <= 400 && spinningToBall == false) { //if the ball is in the front half of the robot when it loses it, immediately stops. If the ball is in the back half of the robot (meaning it is spinning in place) keeps spinning for 250ms to see if it sees it
     stopMotors();
-    if (checkPossession() == true) {
-      currentState = HAS_BALL;
-      stopMotors();
-    }
   }
   else if (millis() - lastTimeSawBall >= 400 && millis() - lastTimeSawBall <= 2000) { //stops motors no matter what after 250ms. Stays stopped looking for ball for 1.85 seconds
+    dribblerOff();
     stopMotors();
-    if (checkPossession() == true) {
-      currentState = HAS_BALL;
-      stopMotors();
-    }
   }
   else if (millis() - lastTimeSawBall >= 2000 && millis() - lastTimeSawBall <= 3000) { //spins to direction while looking for ball for one second
     IMU_spinToDirection(g_goal);

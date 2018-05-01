@@ -232,18 +232,24 @@ void driveToHeading(float angle, float speed) {
   float rad = getRad(angle);
   float proportionals[] = {sin(-rad + 3.92699082), sin(-rad + 5.28834763), sin(-rad + 0.994837674), sin(-rad + 2.35619449)};
 
-  setM1Speed(-speed * proportionals[0]);
-  setM2Speed(-speed * proportionals[1]);
-  setM3Speed(-speed * proportionals[2]);
-  setM4Speed(-speed * proportionals[3]);
+  setM1Speed(speed * proportionals[0]);
+  setM2Speed(speed * proportionals[1]);
+  setM3Speed(speed * proportionals[2]);
+  setM4Speed(speed * proportionals[3]);
 }
 
-void kick() {
-  digitalWrite(31, HIGH);
-  delay(120);
-  digitalWrite(31, LOW);
-  delay(500);
-  randomGenerated = false;
-  delay(500);
+void checkPossessionKick() {
+  if (checkPossession() == true) { //only want to kick if you have possession
+    digitalWrite(31, HIGH);
+    delay(120);
+    digitalWrite(31, LOW);
+    dribblerOff();
+    delay(500);
+    randomGenerated = false;
+    delay(500);
+    for (int i = 0; i < 100; i++) {
+    clearCameraBuffer();
+    }
+  }
 }
 

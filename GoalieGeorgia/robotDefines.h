@@ -74,7 +74,7 @@ SharpIR distIR(A15, 1080);
 
 //---------------------TOF---------------------//
 Adafruit_VL6180X vl = Adafruit_VL6180X();
-#define POSSESSION_THRESHOLD 75
+#define POSSESSION_THRESHOLD 90
 
 //---------------------SPEEDS---------------------//
 int backwardSpeedWithBall  = 110;

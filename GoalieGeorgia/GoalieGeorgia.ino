@@ -22,18 +22,16 @@ void setup() {
   RGBLEDInit();
   LIDARinit();
   TOFInit();
-  delay(1000); //???
   setGoalAndRunProgram();
   delay(1000);
   currentState = DOESNT_SEE_BALL; //CHANGE TO DOESN'T SEE BALL//initialize at this state because interrupt can be triggered while calibrating
-  checkGoalieSwitchOn();
+  checkGoalieSwitch();
+  clearCameraBuffer();
 }
 
 void loop() {
   checkToSetGoal();
-  Serial6.println(currentState);
   if (goalie == true) {
-    setRGB(255, 0, 0);
     updateDistances();
     switch (currentState) {
       case ON_LINE: //out of bounds
@@ -58,49 +56,31 @@ void loop() {
     }
   }
   else { //striker mode
-    setRGB(0, 0, 255);
-    strikerToGoalie();
+    //strikerToGoalie();
     switch (currentState) {
       case ON_LINE: //out of bounds
-        getInBounds();
+        getInBounds(); //can switch to DOESNT_SEE_BALL
         break;
       case SEES_BALL:
+        goToBall(180);
+        break;
+      case DOESNT_SEE_BALL:
         if (checkPossession() == true) {
           currentState = HAS_BALL;
           stopMotors();
         }
-        else dribblerOff();
-        // goToBall(180);
-        break;
-      case DOESNT_SEE_BALL:
-        dribblerOff();
-        doesnt_see_ball();
+        else doesnt_see_ball();
         break;
       case HAS_BALL:
-        if (checkPossession() == true) {
-          digitalWrite(28, HIGH);
-          setRGB(255, 0, 0);
-          if (randomGenerated == true) {
-            if (strategyChoice == 0) {
-              Serial6.println("right corner");
-              getToRightCornerBackwards();
-            }
-            else if (strategyChoice == 1) {
-              Serial6.println("left corner");
-              getToLeftCornerBackwards();
-            }
-            else if (strategyChoice == 2) { //regular scoring
-              Serial6.println("regular scoring");
-              scoreGoal();
-            }
-          }
-          else {
-            strategyChoice = random(0, 3);
-            randomGenerated = true;
-          }
-          break;
+        if (checkPossession() == false) { //first time loses possession of the ball
+          facingGoal = false;
+          driveToHeading(0, 100);
+          delay(250);
+          currentState = DOESNT_SEE_BALL;
+          clearCameraBuffer();
         }
-        else currentState = DOESNT_SEE_BALL;
+        else pickScoringMethodAndScore();
+        break;
     }
   }
 }
