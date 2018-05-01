@@ -54,7 +54,6 @@ uint8_t sys, gyro, accel, mag;
 #define BLUE_PIN  22
 
 //--------------------LIDARS-----------------//
-LIDARLite myLidarLite;
 int numLidars = 4;
 int lidarPinArray[] = {15, 20, 17, 16}; //SS pins: 20 = front, 17 = left, 16 = back, 15 = (nonexistent)
 char lidarI2cAdress[] = {0x64, 0x66, 0x68, 0x62}; //0x62 must always be the last one
@@ -66,18 +65,11 @@ int backDist;
 //--------------------OTHER-----------------//
 boolean facingGoal = false;
 char hemisphere;
-boolean randomGenerated = true;
-int strategyChoice = random(0, 3);
-
-//---------------------Distance IR---------------------//
-SharpIR distIR(A15, 1080);
-
-//---------------------TOF---------------------//
-Adafruit_VL6180X vl = Adafruit_VL6180X();
-#define POSSESSION_THRESHOLD 75
-
-//---------------------SPEEDS---------------------//
 int backwardSpeedWithBall  = 110;
 int forwardSpeedWithBall =  220;
 int sideSpeedWithBall = 150;
+boolean randomGenerated = true;
+boolean shootingRight = true;
+//---------------------Distance IR---------------------//
+SharpIR distIR(A15, 1080);
 

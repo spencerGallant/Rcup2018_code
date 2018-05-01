@@ -98,12 +98,12 @@ void driveToHeadingIMU(float facing, float angle, float speed) {
 }
 
 void spinSlowCheckPossesion(float targetDirection) {
-  float k = 2;
-  while (abs(IMU_calcError(targetDirection)) > 10 && checkPossession() == true) {
-    if (IMU_calcError(targetDirection)*k > 60) spin(60); //sets a max and min speed it can turn at
-    else if (IMU_calcError(targetDirection)*k < -60) spin(-60);
-    else spin(IMU_calcError(targetDirection)*k);
+    float k = 2;
+    while (abs(IMU_calcError(targetDirection)) > 10 && checkPossession() == true) {
+      if (IMU_calcError(targetDirection)*k > 60) spin(60); //sets a max and min speed it can turn at
+      else if (IMU_calcError(targetDirection)*k < -60) spin(-60);
+      else spin(IMU_calcError(targetDirection)*k);
+    }
+    stopMotors();
   }
-  stopMotors();
-}
 

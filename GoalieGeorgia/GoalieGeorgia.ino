@@ -7,10 +7,6 @@
 #include <math.h>
 #include "Adafruit_VL6180X.h"
 #include <SharpIR.h>
-
-LIDARLite myLidarLite;
-Adafruit_VL6180X vl = Adafruit_VL6180X();
-
 #include "robotDefines.h"
 
 
@@ -26,21 +22,16 @@ void setup() {
   RGBLEDInit();
   LIDARinit();
   TOFInit();
-  delay(1000);
+  delay(1000); //???
   setGoalAndRunProgram();
   delay(1000);
-  currentState = DOESNT_SEE_BALL; //initialize at this state because interrupt can be triggered while calibrating
+  currentState = DOESNT_SEE_BALL; //CHANGE TO DOESN'T SEE BALL//initialize at this state because interrupt can be triggered while calibrating
   checkGoalieSwitchOn();
-  setRGB(255, 255, 255);
 }
 
 void loop() {
-  Serial.print(goalie);
-  Serial.print(" ");
-  Serial.print(currentState);
-  Serial.print(" ");
-  Serial.println(checkPossession());
   checkToSetGoal();
+  Serial6.println(currentState);
   if (goalie == true) {
     setRGB(255, 0, 0);
     updateDistances();
@@ -74,35 +65,44 @@ void loop() {
         getInBounds();
         break;
       case SEES_BALL:
-        goToBall(180);
+        if (checkPossession() == true) {
+          currentState = HAS_BALL;
+          stopMotors();
+        }
+        else dribblerOff();
+        // goToBall(180);
         break;
       case DOESNT_SEE_BALL:
+        dribblerOff();
         doesnt_see_ball();
         break;
       case HAS_BALL:
-        scoreGoal();
-        break;
+        if (checkPossession() == true) {
+          digitalWrite(28, HIGH);
+          setRGB(255, 0, 0);
+          if (randomGenerated == true) {
+            if (strategyChoice == 0) {
+              Serial6.println("right corner");
+              getToRightCornerBackwards();
+            }
+            else if (strategyChoice == 1) {
+              Serial6.println("left corner");
+              getToLeftCornerBackwards();
+            }
+            else if (strategyChoice == 2) { //regular scoring
+              Serial6.println("regular scoring");
+              scoreGoal();
+            }
+          }
+          else {
+            strategyChoice = random(0, 3);
+            randomGenerated = true;
+          }
+          break;
+        }
+        else currentState = DOESNT_SEE_BALL;
     }
   }
-  /*if (checkPossession() == true) {
-    if (randomGenerated == true) {
-      if (shootingRight == true) {
-        getToRightCornerBackwards();
-      }
-      else {
-        getToLeftCornerBackwards();
-      }
-    }
-    else {
-      shootingRight = random(0, 2);
-      randomGenerated = true;
-    }
-    }
-    else {
-    stopMotors();
-    }
-    }
-  */
 }
 
 void interrupt() {

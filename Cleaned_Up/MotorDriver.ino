@@ -194,6 +194,7 @@ void dribblerIn() {
     analogWrite(8, 255);
   }
   else {
+    Serial6.println("Dribbler OFF");
     dribblerOff();
   }
 }
@@ -244,6 +245,5 @@ void kick() {
   digitalWrite(31, LOW);
   delay(500);
   randomGenerated = false;
-  delay(500);
 }
 

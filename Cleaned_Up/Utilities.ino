@@ -11,6 +11,8 @@ void MotorsInit() {
   pinMode(_M3DIR, OUTPUT);
   pinMode(_M4CS, INPUT);
   pinMode(_M4DIR, OUTPUT);
+  pinMode(31, OUTPUT); //dribbler init
+
 
   analogWriteFrequency(3, 58593);
   analogWriteFrequency(4, 58593);
@@ -22,6 +24,7 @@ void setGoalAndRunProgram() {
   while (digitalRead(12) == HIGH) IMU_calibrate();
   IMU_GetReadings(); //gets x position
   g_goal = g_xPos; //sets goal to x pos
+
 }
 
 
@@ -58,7 +61,6 @@ void RGBLEDInit() {
   pinMode(GREEN_PIN, OUTPUT);
   pinMode(BLUE_PIN, OUTPUT);
   digitalWrite(13, HIGH);
-  pinMode(28, OUTPUT);
 }
 
 //LIDAR SETUP
@@ -155,7 +157,6 @@ void dribblerInit() {
   pinMode(11, OUTPUT);
   pinMode(32, OUTPUT);
   pinMode(8, OUTPUT);
-  pinMode(31, OUTPUT); //dribbler init
 }
 
 void TOFInit() {
@@ -173,5 +174,8 @@ boolean checkMotorSwitchOn() {
   }
 }
 
-
+void checkGoalieSwitchOn(){
+  if(digitalRead(27) == HIGH) goalie = true;
+  else goalie = false; 
+}
 

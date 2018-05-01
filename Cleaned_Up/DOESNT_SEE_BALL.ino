@@ -12,10 +12,7 @@ void doesnt_see_ball() {
   }
   else if (millis() - lastTimeSawBall >= 400 && millis() - lastTimeSawBall <= 2000) { //stops motors no matter what after 250ms. Stays stopped looking for ball for 1.85 seconds
     stopMotors();
-    if (checkPossession() == true) {
-      currentState = HAS_BALL;
-      stopMotors();
-    }
+    checkPossession();
   }
   else if (millis() - lastTimeSawBall >= 2000 && millis() - lastTimeSawBall <= 3000) { //spins to direction while looking for ball for one second
     IMU_spinToDirection(g_goal);
@@ -33,30 +30,18 @@ void doesnt_see_ball() {
 
     if (lrcentered && fbcentered) {
       stopMotors();
-      if (checkPossession() == true) {
-        currentState = HAS_BALL;
-        stopMotors();
-      }
     } else {
       driveToHeadingIMU(g_goal, xyToAngle(x, y), 200); //drive to center
     }
 
   }
   else if (millis() - lastTimeSawBall >= 7000 && millis()) {
-    if (checkPossession() == true) {
-      currentState = HAS_BALL;
-      stopMotors();
-    }
     stopMotors(); //stop motors after trying to get to center for 4 seconds
   }
 }
 
 void goalieFindBall() {
   calculateAngleGoalie();
-  if (checkPossession() == true) {
-    currentState = HAS_BALL;
-    stopMotors();
-  }
   if (inGoal() && yPos < 2000) currentState = SEES_BALL;
   else if (inGoal() == false) currentState = OUT_OF_GOAL;
   else stopMotors();
