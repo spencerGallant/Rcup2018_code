@@ -47,10 +47,12 @@ void calculateAngleGoalie() {
   if (Serial2.available() > 0) {
     getCameraReadings();     // read the incoming camera x pos
     if (xPos == 0 && yPos == 0) { //needs to be at end so overrides any other calculations
-      yPos = 10000; //xPos = 10000 when robot doesn't see ball
+      yPos = 10000; //xPos & yPos = 10000 when robot doesn't see ball
+      xPos = 10000;
     }
-    if (yPos > 1280 ) { //filter out and bad readings. 2000 is sign of bad readings
+    if (yPos > 960 || xPos > 1280 ) { //filter out and bad readings. 2000 is sign of bad readings
       yPos = 2000;
+      xPos = 2000;
       setRGB(255, 0, 255); //purple
       return;
     } else {

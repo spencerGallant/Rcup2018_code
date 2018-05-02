@@ -3,7 +3,7 @@ void goToBall(int speed) {
   int k = 3; //130--> 2; 200--> 3
   lastTimeSawBall = millis();
   calculateAngle();
-  if(abs(ballAngle) < 20) dribblerIn();
+  if (abs(ballAngle) < 20) dribblerIn();
   else dribblerOff();
   if (ballAngle == 10000) { //doesn't see ball. switch state
     stopMotors();
@@ -31,18 +31,19 @@ void goToBall(int speed) {
 }
 
 void blockBall() {
-  int k = 2;
   if (inGoal() == false) {
     currentState = OUT_OF_GOAL;
     return;
   }
   calculateAngleGoalie();
-  if (yPos < 2000) {
+  float k = 2;
+  if (yPos < 2000 && abs(yPos) > 50) {
     int blockingSpeed = yPos * k;
-    if (blockingSpeed > 200) blockingSpeed = 200;
-    else if (blockingSpeed < -200) blockingSpeed = -200;
+    if (blockingSpeed > 255) blockingSpeed = 255;
+    else if (blockingSpeed < -255) blockingSpeed = -255;
     driveToHeadingIMU(g_goal, 90, blockingSpeed);
   }
+  else if (abs(yPos) < 50) stopMotors();
   else currentState = DOESNT_SEE_BALL;
 }
 

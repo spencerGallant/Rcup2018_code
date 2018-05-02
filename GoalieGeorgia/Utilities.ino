@@ -173,5 +173,17 @@ boolean checkMotorSwitchOn() {
   }
 }
 
+int sendNumbersViaXbee() {
+  if (Serial6.available() > 0) {
+    int i = 0;
+    int parsedInput[2];
+    finalInput = 0;
 
+    while (Serial6.available() > 0) {
+      parsedInput[i] = Serial6.parseInt();
+      i++;
+    }
+    finalInput =  parsedInput[0];
+  }
+}
 

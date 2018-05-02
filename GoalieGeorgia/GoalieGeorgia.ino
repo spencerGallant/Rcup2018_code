@@ -29,9 +29,24 @@ void setup() {
   clearCameraBuffer();
 }
 
+int finalMotorSpeed = 0;
+
 void loop() {
+
+  finalMotorSpeed = sendNumbersViaXbee();
+  
   checkToSetGoal();
-  if (goalie == true) {
+  if (checkPossession() == true) {
+    dribblerIn();
+    driveToHeadingIMU(g_goal, 180, finalMotorSpeed);
+  }
+  else {
+    dribblerOff();
+    stopMotors();
+  }
+
+  /*
+    if (goalie == true) {
     updateDistances();
     switch (currentState) {
       case ON_LINE: //out of bounds
@@ -42,20 +57,22 @@ void loop() {
           currentState = HAS_BALL;
           stopMotors();
         }
-        //blockBall();
+        blockBall();
         break;
       case DOESNT_SEE_BALL:
         goalieFindBall();
         break;
       case HAS_BALL:
-        goalieToStriker();
+        //goalieToStriker();
+        checkPossessionKick();
+        currentState = DOESNT_SEE_BALL;
         break;
       case OUT_OF_GOAL:
         getToGoal();
         break;
     }
-  }
-  else { //striker mode
+    }
+    else { //striker mode
     //strikerToGoalie();
     switch (currentState) {
       case ON_LINE: //out of bounds
@@ -82,7 +99,7 @@ void loop() {
         else pickScoringMethodAndScore();
         break;
     }
-  }
+    } */
 }
 
 void interrupt() {
