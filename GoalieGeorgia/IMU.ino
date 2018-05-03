@@ -81,10 +81,10 @@ void driveToHeadingIMU(float facing, float angle, float speed) {
   float rad = getRad(angle);
   float proportionals[] = {sin(-rad + 3.92699082), sin(-rad + 5.28834763), sin(-rad + 0.994837674), sin(-rad + 2.35619449)};
 
-  setM1Speed(speed * proportionals[0] - (facingError)*k);
+  setM1Speed(speed * proportionals[0]*.65 - (facingError)*k);
   setM2Speed(speed * proportionals[1] - (facingError)*k);
   setM3Speed(speed * proportionals[2] - (facingError)*k);
-  setM4Speed(speed * proportionals[3] - (facingError)*k);
+  setM4Speed(speed * proportionals[3]*.65 - (facingError)*k);
 }
 
 void spinSlowCheckPossesion(float targetDirection) {

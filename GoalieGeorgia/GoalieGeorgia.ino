@@ -32,47 +32,51 @@ void setup() {
 int finalMotorSpeed = 0;
 
 void loop() {
-
-  finalMotorSpeed = sendNumbersViaXbee();
-  
-  checkToSetGoal();
-  if (checkPossession() == true) {
-    dribblerIn();
-    driveToHeadingIMU(g_goal, 180, finalMotorSpeed);
-  }
-  else {
-    dribblerOff();
-    stopMotors();
-  }
-
-  /*
-    if (goalie == true) {
+  checkGoalieSwitch();
+  if (goalie == true) {
     updateDistances();
+    if (checkPossession() == true) currentState = HAS_BALL;
     switch (currentState) {
       case ON_LINE: //out of bounds
         getInBounds();
         break;
       case SEES_BALL:
-        if (checkPossession() == true) {
-          currentState = HAS_BALL;
-          stopMotors();
-        }
         blockBall();
+        goalieGoingToBall = false;
         break;
       case DOESNT_SEE_BALL:
-        goalieFindBall();
+        if (goalieGoingToBall) {
+          driveToHeadingIMU(g_goal, 0, 130);
+          delay(250);
+          clearCameraBuffer();
+          if (checkPossession()) currentState = HAS_BALL;
+          else goalieGoingToBall = false;
+        }
+        else  goalieFindBall();
         break;
       case HAS_BALL:
         //goalieToStriker();
-        checkPossessionKick();
-        currentState = DOESNT_SEE_BALL;
+        if (goalieGoingToBall) {
+          if (checkPossession()) pickScoringMethodAndScore();
+          else currentState = DOESNT_SEE_BALL;
+        }
+        else {
+          checkPossessionKick();
+          currentState = DOESNT_SEE_BALL;
+        }
         break;
       case OUT_OF_GOAL:
-        getToGoal();
+        if (previouslyInGoal) stayInGoal();
+        else getToGoal();
+        break;
+      case GO_TO_BALL:
+        goToBall(180);
+        previouslyInGoal = false;
+        goalieGoingToBall = true;
         break;
     }
-    }
-    else { //striker mode
+  }
+  else { //striker mode
     //strikerToGoalie();
     switch (currentState) {
       case ON_LINE: //out of bounds
@@ -99,9 +103,24 @@ void loop() {
         else pickScoringMethodAndScore();
         break;
     }
-    } */
+  }
 }
 
 void interrupt() {
   currentState = ON_LINE;
 }
+
+void moveWithBall() {
+  finalMotorSpeed = sendNumbersViaXbee();
+
+  checkToSetGoal();
+  if (checkPossession() == true) {
+    dribblerIn();
+    driveToHeadingIMU(g_goal, 180, finalMotorSpeed);
+  }
+  else {
+    dribblerOff();
+    stopMotors();
+  }
+}
+

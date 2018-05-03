@@ -40,6 +40,11 @@ void getCameraReadings() {
     // say what you got:
     xPos = word(highChar1, lowChar1);
     yPos = word(highChar2, lowChar2);
+
+    if(abs(oldXpos - xPos) > 10 || abs(oldYpos - yPos) > 10 || (yPos == 0 && xPos == 0) && goalieGoingToBall == false) notMovingTimer = millis();
+    
+    oldXpos = xPos;
+    oldYpos = yPos;
   }
 }
 
@@ -53,7 +58,8 @@ void calculateAngleGoalie() {
     if (yPos > 960 || xPos > 1280 ) { //filter out and bad readings. 2000 is sign of bad readings
       yPos = 2000;
       xPos = 2000;
-      setRGB(255, 0, 255); //purple
+      setRGB(255, 0, 255);
+      clearCameraBuffer();
       return;
     } else {
       yPos = yPos - 480; //makes the center of the screen (640*480) 0 instead of having it be top left corner

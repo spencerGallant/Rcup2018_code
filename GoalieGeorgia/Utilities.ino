@@ -177,7 +177,7 @@ int sendNumbersViaXbee() {
   if (Serial6.available() > 0) {
     int i = 0;
     int parsedInput[2];
-    finalInput = 0;
+    int finalInput = 0;
 
     while (Serial6.available() > 0) {
       parsedInput[i] = Serial6.parseInt();
@@ -185,5 +185,16 @@ int sendNumbersViaXbee() {
     }
     finalInput =  parsedInput[0];
   }
+}
+
+void printState() {
+  if (currentState == ON_LINE) Serial6.print("ON LINE");
+  else if (currentState == SEES_BALL) Serial6.print("SEES BALL");
+  else if (currentState == DOESNT_SEE_BALL) Serial6.print("DOESNT SEE BALL");
+  else if (currentState == OUT_OF_GOAL) Serial6.print("OUT OF GOAL");
+  else if (currentState == GO_TO_BALL) Serial6.print("GO TO BALL");
+  else if (currentState == HAS_BALL) Serial6.print("HAS BALL");
+  Serial6.print("  ");
+  Serial6.println(goalieGoingToBall);
 }
 

@@ -52,6 +52,8 @@ void goalieFindBall() {
   }
   if (inGoal() && yPos < 2000) currentState = SEES_BALL;
   else if (inGoal() == false) currentState = OUT_OF_GOAL;
-  else stopMotors();
+  else if (millis() - lastTimeSawBall > 250) { 
+    IMU_spinToDirection(g_goal);
+  }
 }
 

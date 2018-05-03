@@ -1,5 +1,5 @@
 boolean goalie = false;
-enum State {ON_LINE, HAS_BALL, DOESNT_SEE_BALL, SEES_BALL, OUT_OF_GOAL};
+enum State {ON_LINE, HAS_BALL, DOESNT_SEE_BALL, SEES_BALL, OUT_OF_GOAL, GO_TO_BALL};
 State currentState = DOESNT_SEE_BALL; //initial state
 
 /****Motor Variables****/
@@ -27,11 +27,14 @@ int max_speed = 255;
 int pause = 10;
 
 //******CAMERA********//
-double ballAngle;
+double ballAngle = 0;
 int lastTimeSawBall = 0;
 boolean spinningToBall = false;
 double xPos;
 double yPos;
+double oldXpos = 0;
+double oldYpos = 0;
+int notMovingTimer = 0;
 
 //****QTR*******//
 #define INTERRUPT_PIN           39
@@ -68,13 +71,15 @@ boolean facingGoal = false;
 char hemisphere;
 boolean randomGenerated = true;
 int strategyChoice = random(0, 3);
+boolean goalieGoingToBall = false;
+boolean previouslyInGoal = false;
 
 //---------------------Distance IR---------------------//
 SharpIR distIR(A15, 1080);
 
 //---------------------TOF---------------------//
 Adafruit_VL6180X vl = Adafruit_VL6180X();
-#define POSSESSION_THRESHOLD 75
+#define POSSESSION_THRESHOLD 80
 
 //---------------------SPEEDS---------------------//
 int backwardSpeedWithBall  = 110;

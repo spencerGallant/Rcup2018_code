@@ -231,11 +231,10 @@ void setDribbler(int speed) {
 void driveToHeading(float angle, float speed) {
   float rad = getRad(angle);
   float proportionals[] = {sin(-rad + 3.92699082), sin(-rad + 5.28834763), sin(-rad + 0.994837674), sin(-rad + 2.35619449)};
-
-  setM1Speed(speed * proportionals[0]);
+  setM1Speed(speed * proportionals[0]*.65);
   setM2Speed(speed * proportionals[1]);
   setM3Speed(speed * proportionals[2]);
-  setM4Speed(speed * proportionals[3]);
+  setM4Speed(speed * proportionals[3]*.65);
 }
 
 void checkPossessionKick() {
@@ -248,7 +247,7 @@ void checkPossessionKick() {
     randomGenerated = false;
     delay(500);
     for (int i = 0; i < 100; i++) {
-    clearCameraBuffer();
+      clearCameraBuffer();
     }
   }
 }
