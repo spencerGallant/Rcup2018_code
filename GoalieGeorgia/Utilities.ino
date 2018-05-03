@@ -194,7 +194,6 @@ void printState() {
   else if (currentState == OUT_OF_GOAL) Serial6.print("OUT OF GOAL");
   else if (currentState == GO_TO_BALL) Serial6.print("GO TO BALL");
   else if (currentState == HAS_BALL) Serial6.print("HAS BALL");
-  Serial6.print("  ");
-  Serial6.println(goalieGoingToBall);
+  Serial6.println();
 }
 

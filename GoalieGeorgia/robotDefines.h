@@ -82,7 +82,7 @@ Adafruit_VL6180X vl = Adafruit_VL6180X();
 #define POSSESSION_THRESHOLD 80
 
 //---------------------SPEEDS---------------------//
-int backwardSpeedWithBall  = 110;
+int backwardSpeedWithBall  = 130;
 int forwardSpeedWithBall =  220;
 int sideSpeedWithBall = 150;
 

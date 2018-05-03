@@ -38,8 +38,8 @@ void blockBall() {
   int oldXposDerivative = xPos;
   calculateAngleGoalie();
   float pk = 2; //for PID
-  if (xPos > 450 && abs(yPos) > 20) pk = 3;
-  if (yPos < 2000 && abs(yPos) > 20 && xPos < 1000) {
+  if (xPos > 450 && abs(yPos) > 50) pk = 3;
+  if (yPos < 2000 && abs(yPos) > 50 && xPos < 1000) {
     float dk = 10;
     int derivative = (abs(oldXposDerivative - xPos))*dk;
     Serial6.println(derivative);
@@ -50,7 +50,7 @@ void blockBall() {
     lastTimeSawBall = millis();
   }
   else if ((millis() - notMovingTimer) > 2000) currentState = GO_TO_BALL;
-  else if (abs(yPos) < 20) IMU_spinToDirection(g_goal);
+  else if (abs(yPos) < 50) IMU_spinToDirection(g_goal);
   else currentState = DOESNT_SEE_BALL;
 }
 

@@ -217,13 +217,13 @@ void getToRightCornerBackwards() {
 }
 void rightBackwardsShoot() {
   spinSlowCheckPossesion(g_goal + 90);
-  spinSlowCheckPossesion(g_goal - 65);
+  spinSlowCheckPossesion(g_goal - 45);
   checkPossessionKick();
 }
 
 void leftBackwardsShoot() {
   spinSlowCheckPossesion(g_goal - 90);
-  spinSlowCheckPossesion(g_goal + 65);
+  spinSlowCheckPossesion(g_goal + 45);
   checkPossessionKick();
 }
 
