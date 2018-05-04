@@ -246,9 +246,7 @@ void checkPossessionKick() {
     delay(500);
     randomGenerated = false;
     delay(500);
-    for (int i = 0; i < 100; i++) {
-      clearCameraBuffer();
-    }
+    while(Serial2.available() > 3) clearCameraBuffer();
   }
 }
 

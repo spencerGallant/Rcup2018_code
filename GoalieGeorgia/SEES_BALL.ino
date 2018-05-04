@@ -2,7 +2,6 @@
 void goToBall(int speed) {
   int k = 3; //130--> 2; 200--> 3
   lastTimeSawBall = millis();
-  calculateAngle();
   if (abs(ballAngle) < 20) dribblerIn();
   else dribblerOff();
   if (ballAngle == 10000) { //doesn't see ball. switch state

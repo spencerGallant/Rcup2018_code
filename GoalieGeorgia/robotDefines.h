@@ -32,6 +32,8 @@ int lastTimeSawBall = 0;
 boolean spinningToBall = false;
 double xPos;
 double yPos;
+double tPos;
+double oPos;
 double oldXpos = 0;
 double oldYpos = 0;
 int notMovingTimer = 0;
