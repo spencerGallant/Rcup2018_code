@@ -238,15 +238,22 @@ void driveToHeading(float angle, float speed) {
 }
 
 void checkPossessionKick() {
-  if (checkPossession() == true) { //only want to kick if you have possession
+  stopMotors();
+  Serial6.print("KICKKK");
+  dribblerIn();
+  driveToHeading(0, 255);
+  delay(100);
+  if (checkPossession() == true && abs(IMU_calcError(g_goal)) < 90) { //only want to kick if you have possession
     digitalWrite(31, HIGH);
     delay(120);
     digitalWrite(31, LOW);
+    stopMotors();
     dribblerOff();
     delay(500);
     randomGenerated = false;
     delay(500);
-    while(Serial2.available() > 3) clearCameraBuffer();
+    while (Serial2.available() > 3) clearCameraBuffer();
+    currentState = DOESNT_SEE_BALL;
   }
 }
 

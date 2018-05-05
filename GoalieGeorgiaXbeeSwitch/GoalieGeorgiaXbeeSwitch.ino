@@ -32,91 +32,96 @@ void setup() {
 int finalMotorSpeed = 0;
 
 void loop() {
-  //  checkGoalieSwitch();
+  checkGoalieSwitch();
+  getCameraReadings();     // read the incoming camera x and y pos
   if (goalie == true) {
     setRGB(255, 0, 0);
     if (checkPossession() == true) {
       goalieToStriker();
     }
-    //    updateDistances();
-    //    printState();
-    //    if (checkPossession() == true && currentState != ON_LINE) currentState = HAS_BALL;
-    //    switch (currentState) {
-    //      case ON_LINE: //out of bounds
-    //        getInBounds();
-    //        break;
-    //      case SEES_BALL:
-    //        blockBall();
-    //        goalieGoingToBall = false;
-    //        break;
-    //      case DOESNT_SEE_BALL:
-    //        if (goalieGoingToBall) {
-    //          driveToHeadingIMU(g_goal, 0, 130);
-    //          delay(250);
-    //          clearCameraBuffer();
-    //          calculateAngleGoalie();
-    //          if (checkPossession()) currentState = HAS_BALL;
-    //          else if (yPos < 2000) currentState = SEES_BALL;
-    //          else goalieGoingToBall = false;
-    //        }
-    //        else  goalieFindBall();
-    //        break;
-    //      case HAS_BALL:
-    //        //goalieToStriker();
-    //        if (goalieGoingToBall) {
-    //          if (checkPossession()) {
-    //            pickScoringMethodAndScore();
-    //            previouslyInGoal = false;
-    //
-    //          }
-    //          else currentState = DOESNT_SEE_BALL;
-    //        }
-    //        else {
-    //          checkPossessionKick();
-    //          currentState = DOESNT_SEE_BALL;
-    //        }
-    //        break;
-    //      case OUT_OF_GOAL:
-    //        if (previouslyInGoal) stayInGoal();
-    //        else getToGoal();
-    //        break;
-    //      case GO_TO_BALL:
-    //        goToBall(180);
-    //        goalieGoingToBall = true;
-    //        break;
-    //    }
+    updateDistances();
+    if (checkPossession() == true && currentState != ON_LINE) currentState = HAS_BALL;
+    printState();
+    switch (currentState) {
+      case ON_LINE: //out of bounds
+        getInBounds();
+        break;
+      case SEES_BALL:
+        blockBall();
+        goalieGoingToBall = false;
+        break;
+      case DOESNT_SEE_BALL:
+        if (goalieGoingToBall) {
+          driveToHeadingIMU(g_goal, 0, 130);
+          delay(250);
+          clearCameraBuffer();
+          calculateAngleGoalie();
+          if (checkPossession()) currentState = HAS_BALL;
+          else if (yPos < 2000) currentState = SEES_BALL;
+          else goalieGoingToBall = false;
+        }
+        else  goalieFindBall();
+        break;
+      case HAS_BALL:
+        //goalieToStriker();
+        if (goalieGoingToBall) {
+          if (checkPossession()) {
+            pickScoringMethodAndScore();
+            previouslyInGoal = false;
+
+          }
+          else currentState = DOESNT_SEE_BALL;
+        }
+        else {
+          checkPossessionKick();
+          currentState = DOESNT_SEE_BALL;
+        }
+        break;
+      case OUT_OF_GOAL:
+        if (previouslyInGoal) stayInGoal();
+        else getToGoal();
+        break;
+      case GO_TO_BALL:
+        goToBall(180);
+        goalieGoingToBall = true;
+        break;
+    }
   }
   else { //striker mode
+    //strikerToGoalie();
+    printState();
     setRGB(0, 0, 255);
-    strikerToGoalie();
-    //    //strikerToGoalie();
-    //    calculateAngle();
-    //    switch (currentState) {
-    //      case ON_LINE: //out of bounds
-    //        getInBounds(); //can switch to DOESNT_SEE_BALL
-    //        break;
-    //      case SEES_BALL:
-    //        goToBall(180);
-    //        break;
-    //      case DOESNT_SEE_BALL:
-    //        if (checkPossession() == true) {
-    //          currentState = HAS_BALL;
-    //          stopMotors();
-    //        }
-    //        else doesnt_see_ball();
-    //        break;
-    //      case HAS_BALL:
-    //        if (checkPossession() == false) { //first time loses possession of the ball
-    //          facingGoal = false;
-    //          driveToHeading(0, 100);
-    //          delay(250);
-    //          currentState = DOESNT_SEE_BALL;
-    //          clearCameraBuffer();
-    //        }
-    //        else findOpenGoalAndScore();
-    //        break;
-    //    }
+    calculateGoalAngle();
+    calculateAngle();
+    switch (currentState) {
+      case ON_LINE: //out of bounds
+        getInBounds(); //can switch to DOESNT_SEE_BALL
+        break;
+      case SEES_BALL:
+        stopMotors();
+        goToBall(180);
+        break;
+      case DOESNT_SEE_BALL:
+        if (checkPossession() == true) {
+          currentState = HAS_BALL;
+          stopMotors();
+        }
+        else doesnt_see_ball();
+        break;
+      case HAS_BALL:
+        if (checkPossession() == false) { //first time loses possession of the ball
+          facingGoal = false;
+          driveToHeading(0, 100);
+          delay(250);
+          currentState = DOESNT_SEE_BALL;
+          clearCameraBuffer();
+        }
+        else pickScoringMethodAndScore();
+        break;
+    }
+
   }
+
 }
 
 void interrupt() {

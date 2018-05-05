@@ -2,12 +2,13 @@ void pickScoringMethodAndScore() {
   if (randomGenerated == true) {
     if (strategyChoice == 0) {
       getToRightCornerBackwards();
+      Serial6.println("got out of moving backwards");
     }
     else if (strategyChoice == 1) {
       getToLeftCornerBackwards();
     }
     else if (strategyChoice == 2) { //regular scoring
-      regularScoring();
+      findOpenGoalAndScore();
     }
   }
   else {
@@ -187,24 +188,32 @@ void getToLeftCornerBackwards() {
 
 
 void getToRightCornerBackwards() {
+  Serial6.println("before distances");
   updateDistances();
+  Serial6.println("after distances");
+  printDistances();
   dribblerIn();
   if (abs(IMU_calcError(g_goal + 180)) > 20) {
+    Serial6.println("spinning");
     spinSlowCheckPossesion(g_goal + 180);
     updateDistances();
   }
   if (IRDistance() < 15) { //someone trailing you from behind
+    Serial6.println("someone trailing you");
     spinSlowCheckPossesion(g_goal);
     strategyChoice = 2;
   }
   else if (backDist < 60) {
+    Serial6.println("driving backwards");
     setDribbler(-80);
     driveToHeadingIMU(g_goal + 180, 0, 100);
   }
   else if (backDist < 80 && leftDist < 55) {
+    Serial6.println("in position to shoot");
     rightBackwardsShoot();
   }
   else if (backDist >= 80) {
+    Serial6.println("moving backwardsish");
     int diff = leftDist - 55;
     diff = diff * 2;
     if (diff > 90) diff = 90;
@@ -212,9 +221,14 @@ void getToRightCornerBackwards() {
     driveToHeadingIMU(g_goal + 180, 180 + diff, 100);
   }
   else if (backDist < 100 && leftDist >= 55) {
+    Serial6.println("moving to the left");
     driveToHeadingIMU(g_goal + 180, 270, 100);
   }
+  else {
+    Serial6.println("should never get here");
+  }
 }
+
 void rightBackwardsShoot() {
   spinSlowCheckPossesion(g_goal + 90);
   spinSlowCheckPossesion(g_goal - 45);
@@ -228,22 +242,54 @@ void leftBackwardsShoot() {
 }
 
 void findOpenGoalAndScore() {
-  if (facingGoal == false) {
-    dribblerIn();
-    spinSlowCheckPossesion(g_goal + 180);
-    facingGoal = true;
-    updateDistances();
-  }
+  boolean backwards = abs(IMU_calcError(g_goal)) > 90;
+  Serial6.print("IR Distance: ");
+   Serial6.println(IRDistance());
   updateDistances();
-  if (backDist > 90) {
-    dribblerIn();
-    driveToHeadingIMU(g_goal + 180, 180, backwardSpeedWithBall);
+  if (backwards) {
+    if (facingGoal == false) {
+      dribblerIn();
+      spinSlowCheckPossesion(g_goal + 180);
+      facingGoal = true;
+      updateDistances();
+    }
+    if (IRDistance() < 15) { //being trailed
+      Serial6.println("being trailed");
+      dribblerIn();
+      spinSlowCheckPossesion(g_goal);
+    }
+    else if (backDist > 150) {
+      dribblerIn();
+      driveToHeadingIMU(g_goal + 180, 180, backwardSpeedWithBall);
+    }
+    else {
+      stopMotors();
+      dribblerIn();
+      spinToGoal();
+      checkPossessionKick();
+    }
   }
-  else {
-    stopMotors();
-    dribblerIn();
-    spinToGoal();
-    checkPossessionKick();
+  else { //facing forwards
+    if (facingGoal == false) {
+      dribblerIn();
+      spinSlowCheckPossesion(g_goal);
+      facingGoal = true;
+      updateDistances();
+    }
+    if (frontDist < 40 || IRDistance() < 15) { //blocked in front
+      dribblerIn();
+      spinSlowCheckPossesion(g_goal + 180);
+    }
+    else if (frontDist > 150) {
+      setDribbler(-100);
+      driveToHeadingIMU(g_goal, 0, forwardSpeedWithBall);
+    }
+    else {
+      stopMotors();
+      dribblerIn();
+      spinToGoal();
+      checkPossessionKick();
+    }
   }
 }
 

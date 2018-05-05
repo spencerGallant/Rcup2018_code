@@ -41,7 +41,6 @@ void blockBall() {
   if (yPos < 2000 && abs(yPos) > 50 && xPos < 1000) {
     float dk = 10;
     int derivative = (abs(oldXposDerivative - xPos))*dk;
-    Serial6.println(derivative);
     int blockingSpeed = (yPos * pk) + derivative;
     if (blockingSpeed > 255) blockingSpeed = 255;
     else if (blockingSpeed < -255) blockingSpeed = -255;

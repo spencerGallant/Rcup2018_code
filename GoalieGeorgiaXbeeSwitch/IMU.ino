@@ -62,6 +62,7 @@ boolean IMU_atGoal() {
 void IMU_spinToDirection(float targetDirection) {
   int k = 2;
   while (abs(IMU_calcError(targetDirection)) > 10) {
+    getCameraReadings();
     spin(IMU_calcError(targetDirection) * k);
   }
   stopMotors();
@@ -81,15 +82,16 @@ void driveToHeadingIMU(float facing, float angle, float speed) {
   float rad = getRad(angle);
   float proportionals[] = {sin(-rad + 3.92699082), sin(-rad + 5.28834763), sin(-rad + 0.994837674), sin(-rad + 2.35619449)};
 
-  setM1Speed(speed * proportionals[0]*.65 - (facingError)*k);
+  setM1Speed(speed * proportionals[0] * .65 - (facingError)*k); 
   setM2Speed(speed * proportionals[1] - (facingError)*k);
   setM3Speed(speed * proportionals[2] - (facingError)*k);
-  setM4Speed(speed * proportionals[3]*.65 - (facingError)*k);
+  setM4Speed(speed * proportionals[3] * .65- (facingError)*k);
 }
 
 void spinSlowCheckPossesion(float targetDirection) {
   float k = 2;
   while (abs(IMU_calcError(targetDirection)) > 10 && checkPossession() == true) {
+    getCameraReadings();
     if (IMU_calcError(targetDirection)*k > 60) spin(60); //sets a max and min speed it can turn at
     else if (IMU_calcError(targetDirection)*k < -60) spin(-60);
     else spin(IMU_calcError(targetDirection)*k);

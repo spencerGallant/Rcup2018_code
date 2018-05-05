@@ -29,6 +29,7 @@ void goalieToStriker() {// robot is in goalie mode and is converting to striker 
     if (Serial6.available() > 0) {
       char received = Serial6.read();
       if (received == 'r') {
+        Serial.println("now I am Striker");
         goalie = false;
       }
     }

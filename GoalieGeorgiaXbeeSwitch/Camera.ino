@@ -1,6 +1,5 @@
 void calculateAngle() {
   // Only run this if you are in fact recieving x and y data. Otherwise, ballAngle does not change
-  getCameraReadings();     // read the incoming camera x and y pos
   if (xPos > 1280 || yPos > 960) { //filter out and bad readings. 2000 is sign of bad readings
     ballAngle = 2000;
     setRGB(255, 0, 255); //purple
@@ -57,16 +56,18 @@ void getCameraReadings() {
   tPos = word(highChar3, lowChar3);
   oPos = word(highChar4, lowChar4);
 
+
+
   if (abs(oldXpos - xPos) > 10 || abs(oldYpos - yPos) > 10 || (yPos == 0 && xPos == 0) && goalieGoingToBall == false) notMovingTimer = millis();
 
   oldXpos = xPos;
   oldYpos = yPos;
 
+
 }
 
 void calculateAngleGoalie() {
   if (Serial2.available() > 0) {
-    getCameraReadings();     // read the incoming camera x pos
     if (xPos == 0 && yPos == 0) { //needs to be at end so overrides any other calculations
       yPos = 10000; //xPos & yPos = 10000 when robot doesn't see ball
       xPos = 10000;
@@ -88,22 +89,36 @@ void spinToBall() {
 }
 void spinToGoal() {
   float k = 2;
-  calculateGoalAngle();
-  while (abs(goalAngle) > 10) {
+  Serial6.println(goalAngle);
+  while ((abs(goalAngle) > 10)) {
+    getCameraReadings();     // read the incoming camera x and y pos
+    Serial6.print("spinning to goal ");
+    Serial6.print(goalAngle);
+    Serial6.print("  ");
+    Serial6.print(tPos);
+    Serial6.print("  ");
+    Serial6.println(oPos);
     calculateGoalAngle();
-    if (goalAngle * k > 60) spin(60); //sets a max and min speed it can turn at
-    else if (goalAngle * k < -60) spin(-60);
-    else spin(goalAngle * k);
+    if (goalAngle < 2000) {
+      beginCameraTimer = millis();
+      if (goalAngle * k > 60) spin(60); //sets a max and min speed it can turn at
+      else if (goalAngle * k < -60) spin(-60);
+      else spin(goalAngle * k);
+    }
+    else if (millis() - beginCameraTimer > 300) {
+      IMU_spinToDirection(g_goal);
+      break;
+    }
   }
 }
+
 void clearCameraBuffer() {
   Serial2.clear();
 }
 
 void calculateGoalAngle() {
   // Only run this if you are in fact recieving x and y data. Otherwise, ballAngle does not change
-  getCameraReadings();     // read the incoming camera x and y pos
-  if (xPos > 1280 || yPos > 960) { //filter out and bad readings. 2000 is sign of bad readings
+  if (tPos > 1280 || oPos > 960) { //filter out and bad readings. 2000 is sign of bad readings
     goalAngle = 2000;
     setRGB(255, 0, 255); //purple
   } else {
@@ -129,28 +144,4 @@ void calculateGoalAngle() {
       goalAngle = 10000; //ballAngle = 10000 when robot doesn't see ball
     }
   }
-}
-
-void moveToOpenGoal() {
-  float k = 2;
-  calculateGoalAngle();
-  Serial6.print(readyToShoot);
-  Serial6.print(" ");
-  Serial6.println(oPos);
-  if ((goalAngle == 10000 || abs(oPos) > 20) && readyToShoot == false) {
-    dribblerIn();
-    driveToHeadingIMU(g_goal + 180, 85, 130);
-  }
-  else if (abs(goalAngle) < 20) {
-    stopMotors();
-    checkPossessionKick();
-    readyToShoot = false;
-  }
-  else {
-    readyToShoot = true;
-    if (goalAngle * k > 60) spin(60); //sets a max and min speed it can turn at
-    else if (goalAngle * k < -60) spin(-60);
-    else spin(goalAngle * k);
-  }
-
 }
