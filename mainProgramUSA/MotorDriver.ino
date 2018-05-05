@@ -238,6 +238,7 @@ void driveToHeading(float angle, float speed) {
 }
 
 void checkPossessionKick() {
+  Serial6.println("KICK!");
   stopMotors();
   dribblerIn();
   driveToHeading(0, 255);

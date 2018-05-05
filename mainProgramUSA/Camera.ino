@@ -88,7 +88,6 @@ void spinToBall() {
 void spinToGoal() {
   float k = 2;
   while ((abs(goalAngle) > 10)) {
-    strikerToGoalie();
     getCameraReadings();     // read the incoming camera x and y pos
     calculateGoalAngle();
     if (goalAngle < 2000) {
@@ -96,8 +95,10 @@ void spinToGoal() {
       if (goalAngle * k > 60) spin(60); //sets a max and min speed it can turn at
       else if (goalAngle * k < -60) spin(-60);
       else spin(goalAngle * k);
+      Serial6.println("spinning to ball");
     }
     else if (millis() - beginCameraTimer > 300) {
+      Serial6.println("spinning to goal. Did not see ball");
       IMU_spinToDirection(g_goal);
       break;
     }

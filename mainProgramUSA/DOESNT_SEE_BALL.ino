@@ -1,4 +1,5 @@
 void doesnt_see_ball() {
+  
   if (ballAngle != 10000) {
     currentState = SEES_BALL; //if sees ball at any point, switches state
   }
