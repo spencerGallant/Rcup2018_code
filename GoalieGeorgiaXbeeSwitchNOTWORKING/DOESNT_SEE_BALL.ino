@@ -12,6 +12,7 @@ void doesnt_see_ball() {
   }
   else if (millis() - lastTimeSawBall >= 2000 && millis() - lastTimeSawBall <= 3000) { //spins to direction while looking for ball for one second
     dribblerOff();
+    Serial.println("GETTTING STUCK HERE");
     IMU_spinToDirection(g_goal);
   }
   else if (millis() - lastTimeSawBall >= 3000 && millis() - lastTimeSawBall <= 7000) { //tries to get back to center for 4 seconds

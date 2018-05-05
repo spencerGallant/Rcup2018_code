@@ -191,7 +191,7 @@ void dribblerIn() {
   if (checkMotorSwitchOn() == true) {
     digitalWrite(11, LOW);
     digitalWrite(32, HIGH);
-    analogWrite(8, 255);
+    analogWrite(8, 190);
   }
   else {
     dribblerOff();
@@ -201,7 +201,7 @@ void dribblerOut() {
   if (checkMotorSwitchOn() == true) {
     digitalWrite(11, HIGH);
     digitalWrite(32, LOW);
-    analogWrite(8, 255);
+    analogWrite(8, 190);
   }
   else dribblerOff();
 }

@@ -22,8 +22,8 @@ void setup() {
   RGBLEDInit();
   LIDARinit();
   TOFInit();
-  //setGoalAndRunProgram();
-  //delay(1000);
+  setGoalAndRunProgram();
+  delay(1000);
   currentState = DOESNT_SEE_BALL; //CHANGE TO DOESN'T SEE BALL//initialize at this state because interrupt can be triggered while calibrating
   checkGoalieSwitch();
   clearCameraBuffer();
@@ -32,9 +32,11 @@ void setup() {
 int finalMotorSpeed = 0;
 
 void loop() {
-    Serial.println(currentState);
-    getCameraReadings();     // read the incoming camera x and y pos
-    if (goalie == true) {
+  printState();
+  checkToSetGoal();
+  checkGoalieSwitch();
+  getCameraReadings();     // read the incoming camera x and y pos
+  if (goalie == true) {
     setRGB(255, 0, 0);
     updateDistances();
     if (checkPossession() == true && currentState != ON_LINE) currentState = HAS_BALL;
@@ -60,20 +62,18 @@ void loop() {
         else  goalieFindBall();
         break;
       case HAS_BALL:
-       // if (goalieGoingToBall) {
+        if (goalieGoingToBall) {
           if (checkPossession()) {
-            goalieToStriker();
-
-            //            pickScoringMethodAndScore();
-            //            calculateGoalAngle();
+            pickScoringMethodAndScore();
+            calculateGoalAngle();
             previouslyInGoal = false;
           }
           else currentState = DOESNT_SEE_BALL;
-    //        }
-    //        else {
-    //          checkPossessionKick();
-    //          currentState = DOESNT_SEE_BALL;
-    //        }
+        }
+        else {
+          checkPossessionKick();
+          currentState = DOESNT_SEE_BALL;
+        }
         break;
       case OUT_OF_GOAL:
         if (previouslyInGoal) stayInGoal();
@@ -85,9 +85,8 @@ void loop() {
         goalieGoingToBall = true;
         break;
     }
-    }
-    else { //striker mode
-    strikerToGoalie();
+  }
+  else { //striker mode
     setRGB(0, 0, 255);
     calculateGoalAngle();
     calculateAngle();
@@ -117,9 +116,9 @@ void loop() {
         break;
     }
 
-    }
+  }
 
-  
+
 }
 
 void interrupt() {
@@ -128,7 +127,6 @@ void interrupt() {
 
 void moveWithBall() {
   finalMotorSpeed = sendNumbersViaXbee();
-
   checkToSetGoal();
   if (checkPossession() == true) {
     dribblerIn();

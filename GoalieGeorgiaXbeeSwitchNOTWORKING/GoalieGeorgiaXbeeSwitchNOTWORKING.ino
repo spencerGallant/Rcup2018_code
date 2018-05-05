@@ -22,19 +22,22 @@ void setup() {
   RGBLEDInit();
   LIDARinit();
   TOFInit();
-  //setGoalAndRunProgram();
-  //delay(1000);
+  setGoalAndRunProgram();
+  delay(1000);
   currentState = DOESNT_SEE_BALL; //CHANGE TO DOESN'T SEE BALL//initialize at this state because interrupt can be triggered while calibrating
   checkGoalieSwitch();
   clearCameraBuffer();
+  Serial.print("xbee working");
+
 }
 
 int finalMotorSpeed = 0;
 
 void loop() {
-    Serial.println(currentState);
-    getCameraReadings();     // read the incoming camera x and y pos
-    if (goalie == true) {
+  Serial.print("current state");
+  Serial.println(currentState);
+  getCameraReadings();     // read the incoming camera x and y pos
+  if (goalie == true) {
     setRGB(255, 0, 0);
     updateDistances();
     if (checkPossession() == true && currentState != ON_LINE) currentState = HAS_BALL;
@@ -60,20 +63,19 @@ void loop() {
         else  goalieFindBall();
         break;
       case HAS_BALL:
-       // if (goalieGoingToBall) {
-          if (checkPossession()) {
-            goalieToStriker();
+        // if (goalieGoingToBall) {
+        if (checkPossession()) goalieToStriker();
 
-            //            pickScoringMethodAndScore();
-            //            calculateGoalAngle();
-            previouslyInGoal = false;
-          }
-          else currentState = DOESNT_SEE_BALL;
-    //        }
-    //        else {
-    //          checkPossessionKick();
-    //          currentState = DOESNT_SEE_BALL;
-    //        }
+//          //            pickScoringMethodAndScore();
+//          //            calculateGoalAngle();
+//          previouslyInGoal = false;
+//        }
+//        else currentState = DOESNT_SEE_BALL;
+        //        }
+        //        else {
+        //          checkPossessionKick();
+        //          currentState = DOESNT_SEE_BALL;
+        //        }
         break;
       case OUT_OF_GOAL:
         if (previouslyInGoal) stayInGoal();
@@ -85,9 +87,9 @@ void loop() {
         goalieGoingToBall = true;
         break;
     }
-    }
-    else { //striker mode
-    strikerToGoalie();
+  }
+  else { //striker mode
+    
     setRGB(0, 0, 255);
     calculateGoalAngle();
     calculateAngle();
@@ -99,6 +101,7 @@ void loop() {
         goToBall(180);
         break;
       case DOESNT_SEE_BALL:
+
         if (checkPossession() == true) {
           currentState = HAS_BALL;
           stopMotors();
@@ -116,10 +119,8 @@ void loop() {
         else pickScoringMethodAndScore();
         break;
     }
-
-    }
-
-  
+    //strikerToGoalie();
+  }
 }
 
 void interrupt() {

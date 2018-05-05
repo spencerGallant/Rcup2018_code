@@ -89,6 +89,7 @@ void spinToGoal() {
   float k = 2;
   while ((abs(goalAngle) > 10)) {
     strikerToGoalie();
+    Serial.println("Spinning to goal");
     getCameraReadings();     // read the incoming camera x and y pos
     calculateGoalAngle();
     if (goalAngle < 2000) {

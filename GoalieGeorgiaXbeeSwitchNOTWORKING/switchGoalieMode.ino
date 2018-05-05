@@ -17,7 +17,9 @@ void strikerToGoalie() { // robot is in striker mode and is converting to goalie
       goalie = true;
       currentState = OUT_OF_GOAL;
     }
+    Serial.println("after g received");
   }
+  Serial.println("after serial available");
 }
 
 void goalieToStriker() {// robot is in goalie mode and is converting to striker mode

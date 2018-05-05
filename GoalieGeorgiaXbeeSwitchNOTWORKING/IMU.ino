@@ -62,7 +62,9 @@ boolean IMU_atGoal() {
 void IMU_spinToDirection(float targetDirection) {
   int k = 2;
   while (abs(IMU_calcError(targetDirection)) > 10) {
+    Serial.println("IMU_spinToDirection");
     strikerToGoalie();
+    Serial.println(goalie);
     getCameraReadings();
     spin(IMU_calcError(targetDirection) * k);
   }
@@ -93,6 +95,7 @@ void spinSlowCheckPossesion(float targetDirection) {
   float k = 2;
   while (abs(IMU_calcError(targetDirection)) > 10 && checkPossession() == true) {
     strikerToGoalie();
+    Serial.println("spinSlowCheckPossession");
     getCameraReadings();
     if (IMU_calcError(targetDirection)*k > 60) spin(60); //sets a max and min speed it can turn at
     else if (IMU_calcError(targetDirection)*k < -60) spin(-60);
