@@ -1,21 +1,21 @@
 void doesnt_see_ball() {
-  
   if (ballAngle != 10000) {
-    currentState = SEES_BALL; //if sees ball at any point, switches state
+    int x = 0;
+    for (int i = 0; i < 10; i++) {
+      calculateAngle();
+      if (ballAngle < 2000) x++;
+    }
+    if (x >= 8) currentState = SEES_BALL; //if sees ball at any point, switches state
   }
   else if (millis() - lastTimeSawBall <= 400 && spinningToBall == false) { //if the ball is in the front half of the robot when it loses it, immediately stops. If the ball is in the back half of the robot (meaning it is spinning in place) keeps spinning for 250ms to see if it sees it
     dribblerIn();
     stopMotors();
   }
-  else if (millis() - lastTimeSawBall >= 400 && millis() - lastTimeSawBall <= 2000) { //stops motors no matter what after 250ms. Stays stopped looking for ball for 1.85 seconds
-    dribblerIn();
+  else if (millis() - lastTimeSawBall >= 400 && millis() - lastTimeSawBall <= 1000) { //stops motors no matter what after 250ms. Stays stopped looking for ball for 1.85 seconds
+    dribblerOff();
     stopMotors();
   }
-  else if (millis() - lastTimeSawBall >= 2000 && millis() - lastTimeSawBall <= 3000) { //spins to direction while looking for ball for one second
-    dribblerOff();
-    IMU_spinToDirection(g_goal);
-  }
-  else if (millis() - lastTimeSawBall >= 3000 && millis() - lastTimeSawBall <= 7000) { //tries to get back to center for 4 seconds
+  else if (millis() - lastTimeSawBall >= 1000 && millis() - lastTimeSawBall <= 7000) { //tries to get back to center for 4 seconds
     updateDistances();
     int x = (rightDist >= leftDist) ? 1 : -1;
     int y = (frontDist >= backDist) ? 1 : -1;

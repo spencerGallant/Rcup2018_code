@@ -30,11 +30,11 @@ void stayInGoal() {
       return;
     }
   }
-  if (backDist > 80) {
+  if (backDist > 70) {
     driveToHeadingIMU(g_goal, 180, 90 + backDist);
     return;
   }
-  if (backDist < 60) {
+  if (backDist < 50) {
     driveToHeadingIMU(g_goal, 0, 100);
     return;
   }
@@ -75,8 +75,8 @@ boolean inGoal() {
     if (rightDist < 70) return false;
     else if (leftDist < 70) return false;
   }
-  if (backDist > 80) return false;
-  if (backDist < 60) return false;
+  if (backDist > 70) return false;
+  if (backDist < 50) return false;
 
   previouslyInGoal = true;
   return true;

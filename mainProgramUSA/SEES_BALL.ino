@@ -1,6 +1,6 @@
 
 void goToBall(int speed) {
-  float k = 2.3; //130--> 2; 200--> 3
+  float k = 2.5; //130--> 2; 200--> 3
   lastTimeSawBall = millis();
   if (abs(ballAngle) < 20) dribblerIn();
   else dribblerOff();
@@ -12,7 +12,7 @@ void goToBall(int speed) {
     stopMotors();
     clearCameraBuffer();
   }
-  else if ((ballAngle > 30) || (ballAngle < -30)) { //if the ball is behind the robot just spin to it
+  else if (abs(ballAngle > 20)) { //if the ball is behind the robot just spin to it
     spinToBall();
     spinningToBall = true;
 

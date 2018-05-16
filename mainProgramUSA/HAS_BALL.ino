@@ -166,8 +166,7 @@ void getToLeftCornerBackwards() {
     strategyChoice = 2;
   }
   else if (backDist < 60) {
-    setDribbler(-80);
-    driveToHeadingIMU(g_goal + 180, 0, 100);
+    strategyChoice = 2;
   }
   else if (backDist < 80 && rightDist < 55) {
     leftBackwardsShoot();
@@ -198,8 +197,7 @@ void getToRightCornerBackwards() {
     strategyChoice = 2;
   }
   else if (backDist < 60) {
-    setDribbler(-80);
-    driveToHeadingIMU(g_goal + 180, 0, 100);
+    strategyChoice = 2;
   }
   else if (backDist < 80 && leftDist < 55) {
     rightBackwardsShoot();

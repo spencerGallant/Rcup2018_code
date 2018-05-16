@@ -62,7 +62,6 @@ boolean IMU_atGoal() {
 void IMU_spinToDirection(float targetDirection) {
   int k = 2;
   while (abs(IMU_calcError(targetDirection)) > 10) {
-    Serial6.println("spinning to target direction");
     getCameraReadings();
     spin(IMU_calcError(targetDirection) * k);
   }

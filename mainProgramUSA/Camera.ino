@@ -37,16 +37,24 @@ void getCameraReadings() {
       bTimer = millis();
     }
   }
-  while (Serial2.available() < 2);
+  while (Serial2.available() < 2) {
+    if (currentState == ON_LINE) break;
+  }
   char highChar1 = Serial2.read();
   char lowChar1 = Serial2.read();
-  while (Serial2.available() < 2);
+  while (Serial2.available() < 2) {
+    if (currentState == ON_LINE) break;
+  }
   char highChar2 = Serial2.read();
   char lowChar2 = Serial2.read();
-  while (Serial2.available() < 2);
+  while (Serial2.available() < 2) {
+    if (currentState == ON_LINE) break;
+  }
   char highChar3 = Serial2.read();
   char lowChar3 = Serial2.read();
-  while (Serial2.available() < 2);
+  while (Serial2.available() < 2) {
+    if (currentState == ON_LINE) break;
+  }
   char highChar4 = Serial2.read();
   char lowChar4 = Serial2.read();
   // say what you got:
@@ -95,11 +103,9 @@ void spinToGoal() {
       if (goalAngle * k > 60) spin(60); //sets a max and min speed it can turn at
       else if (goalAngle * k < -60) spin(-60);
       else spin(goalAngle * k);
-      Serial6.println("spinning to ball");
     }
     else if (millis() - beginCameraTimer > 300) {
-      Serial6.println("spinning to goal. Did not see ball");
-      IMU_spinToDirection(g_goal);
+      spinSlowCheckPossesion(g_goal);
       break;
     }
   }
