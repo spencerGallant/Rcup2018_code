@@ -37,8 +37,8 @@ double tPos;
 double oPos;
 double oldXpos = 0;
 double oldYpos = 0;
-int notMovingTimer = 0;
-int beginCameraTimer = 0;
+int notMovingTimer = millis();
+int beginCameraTimer = millis();
 
 //****QTR*******//
 #define INTERRUPT_PIN           39

@@ -1,4 +1,5 @@
 void pickScoringMethodAndScore() {
+
   if (randomGenerated == true) {
     if (strategyChoice == 0) {
       getToRightCornerBackwards();
@@ -6,15 +7,16 @@ void pickScoringMethodAndScore() {
     else if (strategyChoice == 1) {
       getToLeftCornerBackwards();
     }
-    else if (strategyChoice == 2) { //regular scoring
+    else if (strategyChoice >= 2) { //regular scoring
       findOpenGoalAndScore();
     }
   }
   else {
-    strategyChoice = random(0, 3);
+    strategyChoice = random(0, 4);
     randomGenerated = true;
   }
 }
+
 
 void regularScoring() {
   updateDistances();
@@ -155,6 +157,7 @@ void checkWhichHemisphere() {
 }
 
 void getToLeftCornerBackwards() {
+  Serial.println("get to left corner backwards");
   updateDistances();//MAKE SURE YOU DONT DO THIS TWICE
   dribblerIn();
   if (abs(IMU_calcError(g_goal + 180)) > 20) {
@@ -186,6 +189,7 @@ void getToLeftCornerBackwards() {
 
 
 void getToRightCornerBackwards() {
+  Serial.println("get to right corner backwards");
   updateDistances();
   dribblerIn();
   if (abs(IMU_calcError(g_goal + 180)) > 20) {
@@ -218,33 +222,41 @@ void rightBackwardsShoot() {
   spinSlowCheckPossesion(g_goal + 90);
   spinSlowCheckPossesion(g_goal - 45);
   checkPossessionKick();
+  Serial.println("right backwards shoot");
+
 }
 
 void leftBackwardsShoot() {
   spinSlowCheckPossesion(g_goal - 90);
   spinSlowCheckPossesion(g_goal + 45);
   checkPossessionKick();
+  Serial.println("left backwards shoot");
 }
 
 void findOpenGoalAndScore() {
   boolean backwards = abs(IMU_calcError(g_goal)) > 90;
   updateDistances();
   if (backwards) {
+    Serial.println("backwards");
     if (facingGoal == false) {
+      Serial.println("FG");
       dribblerIn();
       spinSlowCheckPossesion(g_goal + 180);
       facingGoal = true;
       updateDistances();
     }
     if (IRDistance() < 15) { //being trailed
+      Serial.println("IRDist");
       dribblerIn();
       spinSlowCheckPossesion(g_goal);
     }
     else if (backDist > 150) {
+      Serial.println("backDist");
       dribblerIn();
       driveToHeadingIMU(g_goal + 180, 180, backwardSpeedWithBall);
     }
     else {
+      Serial.println("spin to goal shoot");
       stopMotors();
       dribblerIn();
       spinToGoal();
@@ -252,6 +264,7 @@ void findOpenGoalAndScore() {
     }
   }
   else { //facing forwards
+    Serial.println("WHAT THE HECK");
     if (facingGoal == false) {
       dribblerIn();
       spinSlowCheckPossesion(g_goal);

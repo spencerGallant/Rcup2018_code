@@ -63,8 +63,6 @@ void getCameraReadings() {
   tPos = word(highChar3, lowChar3);
   oPos = word(highChar4, lowChar4);
 
-
-
   if ((abs(oldXpos - xPos) > 5 || abs(oldYpos - yPos) > 5 || (yPos == 0 && xPos == 0)) && goalieGoingToBall == false) notMovingTimer = millis();
 
   oldXpos = xPos;
@@ -105,7 +103,25 @@ void spinToGoal() {
       else spin(goalAngle * k);
     }
     else if (millis() - beginCameraTimer > 300) {
-      spinSlowCheckPossesion(g_goal);
+      checkWhichHemisphere();
+      boolean forwards = abs(IMU_calcError(g_goal)) < 90;
+      if (hemisphere == 'r' && forwards) {
+        spinSlowCheckPossesion(g_goal - 45);
+      }
+      else if (hemisphere == 'l' && forwards) {
+        spinSlowCheckPossesion(g_goal + 45);
+      }
+      else if (hemisphere == 'r' && !forwards) { //actually closer to left side
+        spinSlowCheckPossesion(g_goal - 90);
+        spinSlowCheckPossesion(g_goal + 45);
+      }
+      else if (hemisphere == 'l' && !forwards) { //actually closer to right side
+        spinSlowCheckPossesion(g_goal + 90);
+        spinSlowCheckPossesion(g_goal - 45);
+      }
+      else {
+        spinSlowCheckPossesion(g_goal);
+      }
       break;
     }
   }
@@ -120,26 +136,29 @@ void calculateGoalAngle() {
   if (tPos > 1280 || oPos > 960) { //filter out and bad readings. 2000 is sign of bad readings
     goalAngle = 2000;
   } else {
-    tPos = tPos - 640; //makes the center of the screen (640*480) 0 instead of having it be top left corner
-    oPos = oPos - 480;
+    if (tPos != 0 && oPos != 0) {
+      tPos = tPos - 640; //makes the center of the screen (640*480) 0 instead of having it be top left corner
+      oPos = oPos - 480;
 
-    tPos = tPos * -1;
-    oPos = oPos * -1;
-    double m = (float)(oPos) / (float)(tPos);
-    goalAngle = atan((double)m);
-    goalAngle = goalAngle * 57296 / 1000;
-    if (tPos < 0 && oPos < 0) goalAngle = goalAngle + 180;
-    else if (tPos > 0 && oPos < 0) goalAngle = goalAngle + 360;
-    else if (tPos < 0 && oPos > 0) goalAngle = goalAngle + 180;
+      tPos = tPos * -1;
+      oPos = oPos * -1;
+      double m = (float)(oPos) / (float)(tPos);
+      goalAngle = atan((double)m);
+      goalAngle = goalAngle * 57296 / 1000;
+      if (tPos < 0 && oPos < 0) goalAngle = goalAngle + 180;
+      else if (tPos > 0 && oPos < 0) goalAngle = goalAngle + 360;
+      else if (tPos < 0 && oPos > 0) goalAngle = goalAngle + 180;
 
-    //comment two lines out if orientation is flipped 180 degrees
-    goalAngle = goalAngle + 180;
-    if (goalAngle > 360) goalAngle = goalAngle - 360;
+      //comment two lines out if orientation is flipped 180 degrees
+      goalAngle = goalAngle + 180;
+      if (goalAngle > 360) goalAngle = goalAngle - 360;
 
-    goalAngle = goalAngle - 180;
+      goalAngle = goalAngle - 180;
 
-    if (m == .75) { //needs to be at end so overrides any other calculations
-      goalAngle = 10000; //ballAngle = 10000 when robot doesn't see ball
+      if (m == .75) { //needs to be at end so overrides any other calculations
+        goalAngle = 10000; //ballAngle = 10000 when robot doesn't see ball
+      }
     }
+    else goalAngle = 10000;
   }
 }
